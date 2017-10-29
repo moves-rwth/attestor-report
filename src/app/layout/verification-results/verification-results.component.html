@@ -1,0 +1,82 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Tables'" [icon]="'fa-table'"></app-page-header>
+    <hr>
+    <div class="row">
+        <div class="col-lg-8">
+          <div class="card mb-3">
+              <div class="card-header">State Space</div>
+              <div class="card-block table-responsive">
+                  <table class="table table-hover table-striped">
+                      <thead>
+                      <tr>
+                          <th>Type</th>
+                          <th>No. of States</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                          <td>with procedure calls</td>
+                          <td>30000</td>
+                      </tr>
+                      <tr>
+                          <td>without procedure calls</td>
+                          <td>30001</td>
+                      </tr>
+                      <tr>
+                          <td>final states</td>
+                          <td>665</td>
+                      </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+          <div class="card mb-3">
+              <div class="card-header">Runtime</div>
+              <div class="card-block table-responsive">
+                  <table class="table table-hover table-striped">
+                      <thead>
+                      <tr>
+                          <th>Phase</th>
+                          <th>Runtime</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                          <td>a</td>
+                          <td>0.01</td>
+                      </tr>
+                      <tr>
+                          <td>b</td>
+                          <td>0.02</td>
+                      </tr>
+                      <tr>
+                          <td colspan="2" class="divider"><hr /></td>
+                      </tr>
+                      <tr>
+                          <td>total</td>
+                          <td>1.53</td>
+                      </tr>
+                      <tr>
+                          <td>total verification</td>
+                          <td>1.33</td>
+                      </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+            <div class="card card-default">
+                <div class="card-header">
+                    <i class="fa fa-bell fa-fw"></i> Notifications card
+                </div>
+                <!-- /.card-header -->
+                <app-notification></app-notification>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <!-- /.col-lg-4 -->
+    </div>
+</div>

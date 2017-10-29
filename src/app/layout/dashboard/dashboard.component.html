@@ -1,0 +1,19 @@
+<div [@routerTransition]>
+    <h2 class="page-header">Analysis Summary <small>discription of case study here?</small></h2>
+    <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
+    <hr>
+    <div class="row">
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'card-primary'" [icon]="'fa fa-sitemap fa-5x'" [count]="260000" [label]="'States'" ></app-stat>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'card-info'" [icon]="'fa fa-dot-circle-o fa-5x'" [count]="12" [label]="'Terminal States'" ></app-stat>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'card-success'" [icon]="'fa fa-check-square-o fa-5x'" [count]="124" [label]="'Formulae Verified'" ></app-stat>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <app-stat [bgClass]="'card-danger'" [icon]="'fa fa-exclamation-triangle fa-5x'" [count]="13" [label]="'Formulae Failed'"></app-stat>
+        </div>
+    </div>
+</div>
