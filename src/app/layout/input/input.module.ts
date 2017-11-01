@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpModule }    from '@angular/http';
 
 import { InputComponent } from './input.component';
 import { InputRoutingModule } from './input-routing.module';
@@ -9,7 +10,8 @@ import { PageHeaderModule } from './../../shared';
     imports: [
         CommonModule,
         InputRoutingModule,
-        PageHeaderModule
+        PageHeaderModule,
+        HttpModule
     ],
     declarations: [InputComponent]
 })
