@@ -25,7 +25,7 @@
             ],
             "scripts": [
                 "../node_modules/chart.js/dist/Chart.js",
-                "../lib/attestor-viewer.js"
+                "../node_modules/jquery/dist/jquery.js"
             ],
             "environmentSource": "environments/environment.ts",
             "environments": {

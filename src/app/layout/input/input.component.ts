@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { OnDestroy } from "@angular/core";
 import { routerTransition } from '../../router.animations';
 import {Http, Response, RequestOptions, Headers} from '@angular/http';
+import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
-//import ntEntry from './grammarData/grammarExport.json'
+import * as cytoscape from 'cytoscape';
+
+
+
 
 @Component({
     selector: 'app-input',
@@ -11,20 +16,29 @@ import 'rxjs/add/operator/catch';
     animations: [routerTransition()]
 })
 export class InputComponent implements OnInit {
-  nt : String;
-  ntEntry : Array<Object>;
-    constructor(private http:Http) {
+    private grammarSubscription : Subscription;
+    ntEntry : Array<Object>;
+    ruleNames : Array<String>;
+    ruleDisplay : number;
 
-      this.readGrammarJSONFile().subscribe(result => {
-                                              console.log("inside",result);
+    constructor(private http:Http) {
+      this.ruleDisplay = 0;
+
+      this.grammarSubscription = this.readGrammarJSONFile().subscribe(result => {
                                               this.ntEntry = result;
-                                              console.log("ntEntry", this.ntEntry);
-                                              console.log("ntTest", this.ntEntry["0"].nonterminal);
-                                              return result;
+                                              this.ruleNames = result["0"].rules;
                                               }
                                             );
+
     }
     ngOnInit() {
+
+      console.log("Finished");
+
+    }
+
+    ngOnDestroy(){
+      this.grammarSubscription.unsubscribe();
     }
 
     readGrammarJSONFile(){
@@ -38,38 +52,93 @@ export class InputComponent implements OnInit {
     }
 
     private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
- }
-
-
-    /*$(function(){
-
-$.getJSON('./grammarData/grammarExport.json', function(grammarData){
-    for(i = 0; i < grammarData.length; i++){
-        var ntEntry = grammarData[i];
-
-        var heading = document.createElement('h3');
-        document.getElementById('grammar').appendChild(heading);
-        heading.innerHTML = ntEntry.nonterminal;
-
-        var list = document.createElement('ul');
-        document.getElementById('grammar').appendChild(list);
-
-
-        for(j = 0; j < ntEntry.rules.length; j++){
-            var ruleNumber = j + 1;
-            var id = ntEntry.nonterminal + 'Rule' + ruleNumber;
-            var listEntry = document.createElement('li');
-            list.appendChild(listEntry);
-            listEntry.setAttribute('id', id);
-            listEntry.setAttribute('style', 'cursor:pointer');
-            listEntry.innerHTML = ntEntry.rules[j];
-            listEntry.onclick = function() {viewRule(this)};
-        }
     }
-})
 
-})*/
+    public loadRule(ntName : string, ruleIndex : number){
+      let ruleData : any = { "nodes": [{"data": {"id": "a", "label": "Gene1"}},{"data": {"id": "b", "label": "Gene2"}}],"edges": [{"data": {"id": "ab","source": "a", "target": "b"}}]};
+      this.ruleDisplay = this.ruleDisplay + 1;
+
+      const tempsubscription = this.readRuleJSONFile(ntName + 'Rule' + ruleIndex).subscribe(result => {
+                                              console.log("Rule graph", result);
+                                              ruleData = result;
+                                              }
+                                            );
+      this.grammarSubscription.add(tempsubscription);
+
+      console.log(ruleData);
+      let elem:HTMLElement = document.getElementById("rule");
+      let styleData : any = 'node { background-color: red; }';
+
+      cytoscape({
+          container : elem,
+          elements: ruleData,
+          style: styleData
+      });
+
+
+      //var cy = cytoscape({ elements: ruleData, container: document.getElementById('rule') });
+      //cy.resize();
+      // Render rule graph
+      /*var cy2 = cytoscape({
+          container: document.getElementById('rule'),
+          layout: '{name: "breadthfirst"}',
+          style: hcStyle,
+          elements: ruleData,
+          selectionType: 'single',
+          boxSelectionEnabled: false,
+          autoungrabify: false ,
+          zoom: 1
+      });*/
+
+
+    }
+
+    private readRuleJSONFile(filename : string){
+
+      return this.http.get('assets/grammarData/' + filename + '.json')//, options)
+          .map((response: Response) => {
+              return response.json();
+          }
+      )
+      .catch(this.handleError);
+    }
+
+/*
+    function viewRule(ruleName){
+
+        clearDivs();
+
+        // Load style
+        var hcStyle = $.ajax({
+        url: './lib/styleHc.cycss',
+        type: 'GET',
+        dataType: 'text'
+        });
+
+        // Load rule data and display rule graph
+        var ruleData = $.getJSON('./grammarData/' + ruleName.id + '.json', function(ruleData){
+
+            // Display rule name
+            document.getElementById('ruleHeading').innerHTML += '<h2> ' + ruleName.id + '</h2>';
+
+            // Render rule
+            cy2 = cytoscape({
+                container: document.getElementById('rule'),
+                layout: {
+                    name: 'breadthfirst'
+                },
+                style: hcStyle,
+                elements: ruleData.elements,
+                selectionType: 'single',
+                boxSelectionEnabled: false,
+                autoungrabify: false ,
+                zoom: 1
+            });
+
+
+        });
+    }
+*/
 
 }

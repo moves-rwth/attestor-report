@@ -29,7 +29,8 @@
         "font-awesome": "^4.7.0",
         "ng2-charts": "^1.6.0",
         "rxjs": "^5.4.3",
-        "zone.js": "^0.8.17"
+        "zone.js": "^0.8.17",
+        "cytoscape": "^3.2.5"
     },
     "devDependencies": {
         "@angular/cli": "^1.4.1",
