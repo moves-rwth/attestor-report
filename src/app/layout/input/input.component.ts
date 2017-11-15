@@ -5,6 +5,8 @@ import {Http, Response, RequestOptions, Headers} from '@angular/http';
 import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
 import * as cytoscape from 'cytoscape';
+import 'rxjs/add/operator/toPromise';
+import "rxjs/add/operator/takeWhile";
 
 
 
@@ -18,32 +20,55 @@ import * as cytoscape from 'cytoscape';
 export class InputComponent implements OnInit {
     private grammarSubscription : Subscription;
     ntEntry : Array<Object>;
+    ruleName : String;
     ruleNames : Array<String>;
-    ruleDisplay : number;
+    rulePath : String;
+
+    // Indicates whether the rule file for the clicked rule could be found
+    showRule : boolean;
+
+    // CSS Style file for cytoscape
+    hcStyle : any;
+    tempsubscription : Subscription;
+
+    alive : boolean;
+
 
     constructor(private http:Http) {
-      this.ruleDisplay = 0;
+      this.rulePath = '';
+      this.alive = true;
 
+      // Get rule names from grammar file
       this.grammarSubscription = this.readGrammarJSONFile().subscribe(result => {
                                               this.ntEntry = result;
                                               this.ruleNames = result["0"].rules;
                                               }
                                             );
 
-    }
-    ngOnInit() {
+     // Load style
+     this.tempsubscription = this.http.get('assets/cytoscapeStyle/styleHc.cycss')//, options)
+                                      .takeWhile(() => this.alive)
+                                      .subscribe(result => {
+                                        this.hcStyle = result.text();
+                                      });
+     //this.grammarSubscription.add(this.tempsubscription);
 
-      console.log("Finished");
+      this.showRule = true;
+
+    }
+
+    ngOnInit() {
 
     }
 
     ngOnDestroy(){
-      this.grammarSubscription.unsubscribe();
+      this.alive = false;
     }
 
     readGrammarJSONFile(){
       // get users from api
           return this.http.get('assets/grammarData/grammarExport.json')//, options)
+              .takeWhile(() => this.alive)
               .map((response: Response) => {
                   return response.json();
               }
@@ -55,53 +80,42 @@ export class InputComponent implements OnInit {
     return Promise.reject(error.message || error);
     }
 
+    // Load the input rule and let cytoscape render it into the rule container
     public loadRule(ntName : string, ruleIndex : number){
-      let ruleData : any = { "nodes": [{"data": {"id": "a", "label": "Gene1"}},{"data": {"id": "b", "label": "Gene2"}}],"edges": [{"data": {"id": "ab","source": "a", "target": "b"}}]};
-      this.ruleDisplay = this.ruleDisplay + 1;
+      this.showRule = true;
+      // Set the binded variables
+      this.ruleName = ntName + ' Rule' + ruleIndex;
+      this.rulePath = 'assets/grammarData/' + ntName + 'Rule' + ruleIndex + '.json';
 
-      const tempsubscription = this.readRuleJSONFile(ntName + 'Rule' + ruleIndex).subscribe(result => {
-                                              console.log("Rule graph", result);
-                                              ruleData = result;
-                                              }
-                                            );
-      this.grammarSubscription.add(tempsubscription);
-
-      console.log(ruleData);
+      let ruleData : any ;
       let elem:HTMLElement = document.getElementById("rule");
-      let styleData : any = 'node { background-color: red; }';
 
-      cytoscape({
-          container : elem,
-          elements: ruleData,
-          style: styleData
-      });
-
-
-      //var cy = cytoscape({ elements: ruleData, container: document.getElementById('rule') });
-      //cy.resize();
-      // Render rule graph
-      /*var cy2 = cytoscape({
-          container: document.getElementById('rule'),
-          layout: '{name: "breadthfirst"}',
-          style: hcStyle,
-          elements: ruleData,
-          selectionType: 'single',
-          boxSelectionEnabled: false,
-          autoungrabify: false ,
-          zoom: 1
-      });*/
-
-
+      this.readRuleJSONFile(ntName + 'Rule' + ruleIndex)
+          .toPromise().then(
+            (result) => {
+                          cytoscape({
+                            container : elem,
+                            elements: result,
+                            style: this.hcStyle
+                          });
+                        },
+          )
+          .catch((ex) => {
+                            this.rulePath = 'File not found';
+                            this.showRule = false;
+                          });
     }
 
+    // Read the provided rule file
     private readRuleJSONFile(filename : string){
 
       return this.http.get('assets/grammarData/' + filename + '.json')//, options)
+          .takeWhile(() => this.alive)
           .map((response: Response) => {
               return response.json();
           }
-      )
-      .catch(this.handleError);
+          )
+          .catch(this.handleError);
     }
 
 /*

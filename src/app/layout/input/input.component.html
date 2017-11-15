@@ -3,10 +3,10 @@
 
     <div class="row">
         <div class="col-lg-3">
-          <!--<div class="card card-default">
-              <div class="card-header">-->
+          <div class="card card-default">
+              <div class="card-header">
                   <h3> Grammar </h3>
-              <!--</div>-->
+              </div>
 
               <ul class="list-group">
                 <div *ngFor="let entry of ntEntry">
@@ -17,18 +17,19 @@
                   </a></li>
                 </div>
               </ul>
-            <!--</div>-->
+            </div>
           </div>
         <!-- /.col-lg-3 -->
       <div class="col-lg-8">
         <div class="card card-default">
           <div class="card-header">
-            <h3>Rule Viewer</h3>
+            <h3>Rule Viewer {{ruleName}}</h3>
           </div>
 
-
-        <div id="rule">
-            {{ruleDisplay}}
+        <div id="output">
+              {{rulePath}}
+        </div>
+        <div *ngIf="showRule" id="rule">
 
         </div>
       </div>
