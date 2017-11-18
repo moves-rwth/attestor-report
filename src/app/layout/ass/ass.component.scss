@@ -1,43 +1,31 @@
-html, body {
-  font: 14px fontawesome, helvetica neue, helvetica, liberation sans, nimbus sans, nimbus sans l, arial, sans-serif;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  overflow: hidden;
-}
-
 #cy {
-  height: 100%;
-  width: 60%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: #000;
+  height: 100vh;
+//  width: 65%;
+//  position: absolute;
+//  left: 0%;
+//  top: 0%;
+  background: #fff;
 }
 
 #cy2 {
-  height: 100%;
-  width: 40%;
-  position: absolute;
-  left: 60%;
-  top: 0;
-  background: #000;
-  border-left: solid #fff;
+  height: 100vh;
+//  width: 35%;
+//  position: absolute;
+//  left: 60%;
+//  top: 0%;
+  background: #fff;
+//  border-left: solid #fff;
 }
 
 #loading {
   position: absolute;
   left: 0;
   top: 50%;
-  width: 100%;
+  width: 65%;
   text-align: center;
   margin-top: -0.5em;
   font-size: 2em;
   color: #fff;
-}
-
-#loading.loaded {
-  display: none;
 }
 
 #loadTroubleshoot {
@@ -79,24 +67,9 @@ button {
   font-family: inherit;
 }
 
-body.has-start #clear {
-  visibility: visible;
-}
 
 #end {
   display: none;
-}
-
-body.has-start:not(.has-end) #end {
-  display: inline;
-}
-
-body.has-start:not(.has-end) #start {
-  display: none;
-}
-
-body.calc #loading {
-  display: block;
 }
 
 .tt-dropdown-menu {
@@ -188,6 +161,12 @@ body.calc #loading {
   width: 10em;
   margin: 0;
   margin-top: 0.5em;
+
+  left: 0%;
+  top: 0%;
+
+  classes: 'qtip-bootstrap qtip-about';
+  background: #FFFFFF;
 }
 
 .qtip-about {

@@ -20,9 +20,9 @@ import "rxjs/add/operator/takeWhile";
 export class InputComponent implements OnInit {
     private grammarSubscription : Subscription;
     ntEntry : Array<Object>;
-    ruleName : String;
+    ruleName : string;
     ruleNames : Array<String>;
-    rulePath : String;
+    rulePath : string;
 
     // Indicates whether the rule file for the clicked rule could be found
     showRule : boolean;
