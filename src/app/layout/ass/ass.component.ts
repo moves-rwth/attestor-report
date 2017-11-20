@@ -6,6 +6,7 @@ import {Http, Response, RequestOptions, Headers} from '@angular/http';
 import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
 import * as cytoscape from 'cytoscape';
+import * as dagre from 'cytoscape-dagre';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
 
@@ -27,7 +28,13 @@ export class ASSComponent implements OnInit {
 
     alive : boolean;
 
+    cy : any;
+
     constructor(private http:Http) {
+
+      dagre(cytoscape);
+      //cytoscape('layout', 'dagre', 'dagre'); // register extension
+
       this.showStateSpace = true;
       this.displayAboutFlag = false;
       this.notLoaded = true;
@@ -64,19 +71,13 @@ export class ASSComponent implements OnInit {
     // Load the input rule and let cytoscape render it into the rule container
     public loadStateSpace(){
 
-      // TODO load layout
-      let layout : any;
-      layout = '';
-      //layout = '{
-      //    name: 'dagre',
-      //    padding: layoutPadding,
-      //    rankDir: 'LR',
-      //  }';
+      // load layout
+      let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'LR' };
 
       // Set the binded variables
-      this.stateSpacePath = 'assets/statespace.json';
+      this.stateSpacePath = 'assets/stateSpaceData/statespace.json';
 
-                                             console.log("Load state space");
+      console.log("Load state space");
 
       let stateSpaceData : any ;
       let elem:HTMLElement = document.getElementById("cy");
@@ -85,22 +86,36 @@ export class ASSComponent implements OnInit {
       this.readStateSpaceJSONFile(this.stateSpacePath)
           .toPromise().then(
             (result) => {
-                          cytoscape({
+                          this.cy = cytoscape({
                             container : elem,
                             elements: result,
                             style: this.style,
-                            //layout: layout;
+                            layout: layout,
                             motionBlur: true,
                             selectionType: 'single',
                             boxSelectionEnabled: false,
                             autoungrabify: true
                           });
                           this.notLoaded = false;
+                          this.cy.resize();
+
+                          console.log(this.cy);
+                          this.cy.on('tap', 'node', function(evt){
+                            console.log("Test: node clicked");
+                            node = evt.target;
+                            console.log("Node: " + node.id());
+                          });
+
                         },
           )
           .catch((ex) => {
                             console.log("State space not found!");
                           });
+
+    }
+
+    private stateClickedFunc(nodeID : string) : void {
+      console.log("Detected state click event: " + nodeID);
     }
 
     // Read the provided state space file
