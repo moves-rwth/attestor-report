@@ -30,6 +30,8 @@ export class ASSComponent implements OnInit {
 
     cy : any;
 
+    nodeId : number;
+
     constructor(private http:Http) {
 
       dagre(cytoscape);
@@ -40,6 +42,7 @@ export class ASSComponent implements OnInit {
       this.notLoaded = true;
       //this.displayAboutFlag = true;
       this.alive = true;
+      this.nodeId = 0;
 
       // Load style
       this.http.get('assets/cytoscapeStyle/style.cycss')//, options)
@@ -71,6 +74,19 @@ export class ASSComponent implements OnInit {
     // Load the input rule and let cytoscape render it into the rule container
     public loadStateSpace(){
 
+    let cyOnCallback = function(evt) : any {
+      console.log("Test: node clicked");
+      let node : any = evt.target;
+      let tmp : number = node.id();
+      console.log("Node: " + node.id());
+      console.log("NodeID: " + tmp);
+      return tmp;
+    };
+
+    //let myAdd = function(x:number) { console.log("TestmyAdd" + x);};
+    //let myAdd: (x: number, y: number) => number =
+    //function(x: number, y: number): number { return x + y; };
+
       // load layout
       let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'LR' };
 
@@ -98,13 +114,12 @@ export class ASSComponent implements OnInit {
                           });
                           this.notLoaded = false;
                           this.cy.resize();
-
-                          console.log(this.cy);
                           this.cy.on('tap', 'node', function(evt){
-                            console.log("Test: node clicked");
-                            node = evt.target;
-                            console.log("Node: " + node.id());
-                          });
+                            this.nodeId = cyOnCallback(evt);
+                          }.bind(this));
+
+                        console.log(this.nodeId);
+
 
                         },
           )
@@ -128,6 +143,39 @@ export class ASSComponent implements OnInit {
           }
           )
           .catch(this.handleError);
+    }
+
+    private readHCJSONFile(id : any){
+      return this.http.get("hc_" + id + ".json")//, options)
+          .takeWhile(() => this.alive)
+          .map((response: Response) => {
+              return response.json();
+          }
+          )
+          .catch(this.handleError);
+    }
+
+    private onNodeTap(node : number){
+      let hcContainer:HTMLElement = document.getElementById("cy2");
+      console.log(hcContainer);
+
+      // TODO: load HC layout
+      let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'LR' };
+
+      this.readHCJSONFile(node).toPromise().then(
+        (hcResult) => {
+          this.cy = cytoscape({
+            container : hcContainer,
+            elements: hcResult,
+            style: this.style,
+            layout: layout,
+            motionBlur: true,
+            selectionType: 'single',
+            boxSelectionEnabled: false,
+            autoungrabify: true
+          });
+        }
+      );
     }
 
     private handleError(error: any): Promise<any> {
