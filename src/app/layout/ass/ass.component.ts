@@ -21,10 +21,13 @@ export class ASSComponent implements OnInit {
     displayAboutFlag : boolean;
     notLoaded : boolean;
 
-    stateSpacePath : string;
+    stateSpacePath : string = 'assets/stateSpaceData/statespace.json';
+    hcPath : string = 'assets/stateSpaceData/';
+
 
     // Style for cytoscape state space generation
-    style : any;
+    statespaceStyle : any;
+    hcStyle : any;
 
     alive : boolean;
 
@@ -42,14 +45,20 @@ export class ASSComponent implements OnInit {
       this.notLoaded = true;
       //this.displayAboutFlag = true;
       this.alive = true;
-      this.nodeId = 0;
 
-      // Load style
+      // Load cytoscape style for state space visualisation
       this.http.get('assets/cytoscapeStyle/style.cycss')//, options)
                                        .takeWhile(() => this.alive)
                                        .subscribe(result => {
-                                         this.style = result.text();
+                                         this.statespaceStyle = result.text();
                                        });
+
+      // Load cytoscape style for state space visualisation
+      this.http.get('assets/cytoscapeStyle/styleHc.cycss')//, options)
+              .takeWhile(() => this.alive)
+              .subscribe(result => {
+                  this.hcStyle = result.text();
+      });
 
     }
     ngOnInit() {
@@ -91,7 +100,7 @@ export class ASSComponent implements OnInit {
       let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'LR' };
 
       // Set the binded variables
-      this.stateSpacePath = 'assets/stateSpaceData/statespace.json';
+      //this.stateSpacePath = ;
 
       console.log("Load state space");
 
@@ -105,7 +114,7 @@ export class ASSComponent implements OnInit {
                           this.cy = cytoscape({
                             container : elem,
                             elements: result,
-                            style: this.style,
+                            style: this.statespaceStyle,
                             layout: layout,
                             motionBlur: true,
                             selectionType: 'single',
@@ -114,8 +123,9 @@ export class ASSComponent implements OnInit {
                           });
                           this.notLoaded = false;
                           this.cy.resize();
-                          this.cy.on('tap', 'node', function(evt){
+                          this.cy.on('select unselect', 'node', function(evt){
                             this.nodeId = cyOnCallback(evt);
+                            this.onNodeTap(this.nodeId);
                           }.bind(this));
 
                         console.log(this.nodeId);
@@ -127,10 +137,6 @@ export class ASSComponent implements OnInit {
                             console.log("State space not found!");
                           });
 
-    }
-
-    private stateClickedFunc(nodeID : string) : void {
-      console.log("Detected state click event: " + nodeID);
     }
 
     // Read the provided state space file
@@ -146,7 +152,7 @@ export class ASSComponent implements OnInit {
     }
 
     private readHCJSONFile(id : any){
-      return this.http.get("hc_" + id + ".json")//, options)
+      return this.http.get(this.hcPath + "hc_" + id + ".json")//, options)
           .takeWhile(() => this.alive)
           .map((response: Response) => {
               return response.json();
@@ -157,22 +163,20 @@ export class ASSComponent implements OnInit {
 
     private onNodeTap(node : number){
       let hcContainer:HTMLElement = document.getElementById("cy2");
-      console.log(hcContainer);
 
-      // TODO: load HC layout
-      let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'LR' };
+      let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'TB', nodeSep: '50' };
 
       this.readHCJSONFile(node).toPromise().then(
         (hcResult) => {
           this.cy = cytoscape({
             container : hcContainer,
             elements: hcResult,
-            style: this.style,
+            style: this.hcStyle,
             layout: layout,
             motionBlur: true,
             selectionType: 'single',
             boxSelectionEnabled: false,
-            autoungrabify: true
+            autoungrabify: false
           });
         }
       );

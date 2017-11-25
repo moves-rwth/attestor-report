@@ -31,16 +31,16 @@ edge {
 }
 
 edge[type = "execution"] {
-	line-color: #D3D3D3;
-	target-arrow-color: #D3D3D3;
+	line-color: black;
+	target-arrow-color: black;
 	opacity: 0.666;
 	z-index: 9;
 	width: 4;
 }
 
 edge[type = "materialization"] {
-	line-color: yellow;
-	target-arrow-color: yellow;
+	line-color: fuchsia;
+	target-arrow-color: fuchsia;
 	opacity: 0.666;
 	z-index: 9;
 	width: 4;
@@ -55,13 +55,13 @@ edge[type = "transitive"] {
 }
 
 node[type = "initialState"] {
-	background-color: white;
-	text-outline-color: white;
+	background-color: lime;
+	text-outline-color: lime;
 }
 
 node[type = "state"] {
-	background-color: gray;
-	text-outline-color: gray;
+	background-color: #D3D3D3;
+	text-outline-color: #D3D3D3;
 }
 
 node[type = "finalState"] {

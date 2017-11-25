@@ -41,7 +41,7 @@ edge[type = "selector"] {
 }
 
 edge[type = "variable"] {
-	line-color: blue;
+	line-color: salmon;
 	opacity: 1;
 	z-index: 10;
 	width: 4;
@@ -94,11 +94,11 @@ node[type = "hyperedge"] {
 }
 
 node[type = "variable"] {
-	background-color: blue;
-	text-outline-color: blue;
+	background-color: salmon;
+	text-outline-color: salmon;
 	content: data(label);
-	text-outline-color: blue;
-	overlay-color: blue;
+	text-outline-color: salmon;
+	overlay-color: salmon;
     shape : rectangle;
 	z-index: 5;
 }
