@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Tables'" [icon]="'fa-table'"></app-page-header>
+    <app-page-header [heading]="'Verification Results'" [icon]="'fa fa-play'"></app-page-header>
     <hr>
     <div class="row">
         <div class="col-lg-8">
@@ -14,18 +14,10 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                          <td>with procedure calls</td>
-                          <td>30000</td>
-                      </tr>
-                      <tr>
-                          <td>without procedure calls</td>
-                          <td>30001</td>
-                      </tr>
-                      <tr>
-                          <td>final states</td>
-                          <td>665</td>
-                      </tr>
+                        <tr *ngFor="let type of stateSpaceArray">
+                            <td> {{type.name}} </td>
+                            <td> {{type.states}}</td>
+                        </tr>
                       </tbody>
                   </table>
               </div>
@@ -42,24 +34,17 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                          <td>a</td>
-                          <td>0.01</td>
-                      </tr>
-                      <tr>
-                          <td>b</td>
-                          <td>0.02</td>
-                      </tr>
+                        <tr *ngFor="let phase of runtimePhasesArray">
+                            <td> {{phase.name}} </td>
+                            <td> {{phase.time}}</td>
+                        </tr>
                       <tr>
                           <td colspan="2" class="divider"><hr /></td>
                       </tr>
-                      <tr>
-                          <td>total</td>
-                          <td>1.53</td>
-                      </tr>
-                      <tr>
-                          <td>total verification</td>
-                          <td>1.33</td>
+                      <tr *ngFor="let total of runtimeTotalArray">
+                          <td> {{total.name}} </td>
+                          <td> {{total.time}}</td>
+
                       </tr>
                       </tbody>
                   </table>
@@ -70,10 +55,10 @@
         <div class="col-lg-4">
             <div class="card card-default">
                 <div class="card-header">
-                    <i class="fa fa-bell fa-fw"></i> Notifications card
+                    <i class="fa fa-bell fa-fw"></i> Checked Formulae
                 </div>
                 <!-- /.card-header -->
-                <app-notification></app-notification>
+                <app-notification [formulae]="mcresultsArray"></app-notification>
                 <!-- /.card-body -->
             </div>
         </div>

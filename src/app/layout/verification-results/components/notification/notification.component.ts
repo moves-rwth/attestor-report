@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
     selector: 'app-notification',
@@ -6,6 +6,17 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent implements OnInit {
-    constructor() { }
-    ngOnInit() { }
+
+    @Input() formulae;
+
+    constructor() {
+    }
+    ngOnInit() {
+
+    }
+
+    ngAfterViewChecked(){
+      console.log("Notification " + this.formulae["0"].formula);
+
+    }
 }
