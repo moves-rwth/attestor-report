@@ -151,6 +151,7 @@ export class ASSComponent implements OnInit {
           .catch(this.handleError);
     }
 
+    // Read the heap configuration file with id
     private readHCJSONFile(id : any){
       return this.http.get(this.hcPath + "hc_" + id + ".json")//, options)
           .takeWhile(() => this.alive)

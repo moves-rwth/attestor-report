@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-    <h2 class="page-header">Analysis Summary <small>description of case study here?</small></h2>
+    <h2 class="page-header">Analysis Summary <small> {{scenarioName}} </small></h2>
     <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
     <hr>
     <div class="row">

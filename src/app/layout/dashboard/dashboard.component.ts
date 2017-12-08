@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit {
 
     public alerts: Array<any> = [];
     public messages: Array<any> = [];
+
+    public scenarioName : string;
     public numberStates : number;
     public numberTermStates : number;
     public numberSuccessfulForm : number;
@@ -29,10 +31,11 @@ export class DashboardComponent implements OnInit {
       console.log("Read summary file");
       this.readGeneralInfoJSONFile().subscribe(result => {
                                               console.log(result);
-                                              this.numberStates = result["0"].summary["0"].numberStates;
-                                              this.numberTermStates = result["0"].summary["1"].numberTerminalStates;
-                                              this.numberSuccessfulForm = result["0"].summary["2"].numberFormulaeSuccess;
-                                              this.numberFailForm = result["0"].summary["3"].numberFormulaeFail;
+                                              this.scenarioName = result["0"].summary["0"].name;
+                                              this.numberStates = result["0"].summary["1"].numberStates;
+                                              this.numberTermStates = result["0"].summary["2"].numberTerminalStates;
+                                              this.numberSuccessfulForm = result["0"].summary["3"].numberFormulaeSuccess;
+                                              this.numberFailForm = result["0"].summary["4"].numberFormulaeFail;
                                               this.messages = result["3"].messages;
 
                                               this.fillAlerts(this.messages);
@@ -74,7 +77,7 @@ export class DashboardComponent implements OnInit {
 
     readGeneralInfoJSONFile(){
       // get users from api
-          return this.http.get('assets/attestorOutput/testSummary.json')//, options)
+          return this.http.get('assets/attestorOutput/analysisSummary.json')//, options)
               .takeWhile(() => this.alive)
               .map((response: Response) => {
                   return response.json();

@@ -48,7 +48,7 @@ export class VerificationResultsComponent implements OnInit {
 
     readGeneralInfoJSONFile(){
       // get users from api
-          return this.http.get('assets/attestorOutput/testSummary.json')//, options)
+          return this.http.get('assets/attestorOutput/analysisSummary.json')//, options)
               .takeWhile(() => this.alive)
               .map((response: Response) => {
                   return response.json();
