@@ -1,7 +1,6 @@
 <div [@routerTransition]>
     <h2 class="page-header">Analysis Summary <small> {{scenarioName}} </small></h2>
-    <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
-    <hr>
+
     <div class="row">
         <div class="col-xl-3 col-lg-6">
             <app-stat [bgClass]="'card-primary'" [icon]="'fa fa-sitemap fa-5x'" [count]="numberStates" [label]="'States'" ></app-stat>
@@ -16,4 +15,8 @@
             <app-stat [bgClass]="'card-danger'" [icon]="'fa fa-exclamation-triangle fa-5x'" [count]="numberFailForm" [label]="'Formulae Failed'"></app-stat>
         </div>
     </div>
+    <hr>
+    <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
+
+
 </div>

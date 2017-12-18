@@ -37,32 +37,39 @@ export class DashboardComponent implements OnInit {
                                               this.numberSuccessfulForm = result["0"].summary["3"].numberFormulaeSuccess;
                                               this.numberFailForm = result["0"].summary["4"].numberFormulaeFail;
                                               this.messages = result["3"].messages;
+                                          });
 
-                                              this.fillAlerts(this.messages);
+      this.readMessagesJSONFile().subscribe( result => {
+                                            this.messages = result;
+                                            this.fillAlerts(this.messages);
                                           });
     }
 
+
+
     ngOnInit() {
+
     }
 
     public fillAlerts(input:Array<any>){
-      let type : string = "";
       let message : any;
       for(message in input){
-        console.log(message);
-        console.log("Message type: " + input[message].type);
-        switch(input[message].type){
-          case "error": type = "danger"; break;
+        let type : string = "";
+        console.log("Message type: " + input[message].level);
+        switch(input[message].level){
           case "info": type = "info"; break;
-          case "warn": type = "warning"; break;
-          case "success": type = "success"; break;
+          case "WARN": type = "warning"; break;
+          case "LTL-SAT": type = "success"; break;
+          case "LTL-UNSAT": type = "danger"; break;
         }
 
-        this.alerts.push({
-          id: message,
-          type: type,
-          message: input[message].message
-        });
+        if( type !== ""){
+          this.alerts.push({
+            id: message,
+            type: type,
+            message: input[message].message
+          });
+        }
       }
     }
 
@@ -78,6 +85,17 @@ export class DashboardComponent implements OnInit {
     readGeneralInfoJSONFile(){
       // get users from api
           return this.http.get('assets/attestorOutput/analysisSummary.json')//, options)
+              .takeWhile(() => this.alive)
+              .map((response: Response) => {
+                  return response.json();
+              }
+          )
+          .catch(this.handleError);
+    }
+
+    readMessagesJSONFile(){
+      // get users from api
+          return this.http.get('assets/attestorOutput/messages.json')//, options)
               .takeWhile(() => this.alive)
               .map((response: Response) => {
                   return response.json();
