@@ -88,11 +88,11 @@ export class GrammarComponent implements OnInit {
       this.rulePath = 'assets/grammarData/' + ntName + 'Rule' + ruleIndex + '.json';
 
       let ruleData : any ;
-      let elem:HTMLElement = document.getElementById("rule");
 
       this.readRuleJSONFile(ntName + 'Rule' + ruleIndex)
           .toPromise().then(
             (result) => {
+                          let elem:HTMLElement = document.getElementById("rule");
                           cytoscape({
                             container : elem,
                             elements: result,
