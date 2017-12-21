@@ -1,5 +1,12 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Verification  Input -- Model Checking'" [icon]="'fa fa-folder-open'"></app-page-header>
 
-    Dies ist ein Test!
+    <h4> Specification </h4>
+
+    <div class="form-group">
+
+      <div *ngFor="let formula of formulae">
+          <input class="form-control" id="formula" type="text" placeholder={{formula}} disabled="">
+      </div>
+    </div>
 </div>
