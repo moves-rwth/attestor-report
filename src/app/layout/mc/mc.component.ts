@@ -3,7 +3,6 @@ import { routerTransition } from '../../router.animations';
 import {Http, Response, RequestOptions, Headers} from '@angular/http';
 import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
-import * as cytoscape from 'cytoscape';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
 
@@ -26,10 +25,7 @@ export class MCComponent implements OnInit {
 
       // Get the input MC formulae from settings file
       this.readSettingsJSONFile().subscribe(result => {
-
         this.formulae = result.modelChecking.formulae.split(';');
-        console.log(this.formulae);
-
       });
 
     }
