@@ -13,6 +13,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/schematics": "0.0.34",
     "@angular/animations": "^4.3.6",
     "@angular/common": "^4.3.6",
     "@angular/compiler": "^4.3.6",
@@ -31,6 +32,7 @@
     "cytoscape-dagre": "^2.1.0",
     "font-awesome": "^4.7.0",
     "ng2-charts": "^1.6.0",
+    "ng2-handy-syntax-highlighter": "^1.0.10",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.17"
   },

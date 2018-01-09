@@ -9,12 +9,16 @@ import { TabsComponent } from './tabs/tabs.component';
 
 import { PageHeaderModule } from './../../shared';
 
+// Syntax Highlighting
+import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
+
 @NgModule({
   imports: [
     CommonModule,
     ProgramRoutingModule,
     NgbModule.forRoot(),
-    PageHeaderModule
+    PageHeaderModule,
+    Ng2HandySyntaxHighlighterModule
   ],
   declarations: [ProgramComponent,
                  TabsComponent]
