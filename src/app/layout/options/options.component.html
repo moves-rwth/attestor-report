@@ -1,5 +1,45 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Verification  Input -- Attestor Options'" [icon]="'fa fa-folder-open'"></app-page-header>
 
-    Dies ist ein Test!
+<fieldset disabled="">
+
+    <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-3">
+              <div class="card-header">Boolean Options</div>
+              <div class="card-block">
+
+                <div *ngFor="let bOption of booleanOptions">
+                  <div class="checkbox" *ngIf="bOption.value == 'true'">
+                    <label><input type="checkbox" checked> {{bOption.name}} </label>
+                  </div>
+                  <div class="checkbox" *ngIf="bOption.value == 'false'">
+                    <label><input type="checkbox"> {{bOption.name}} </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- col-lg-4><-->
+          </div>
+
+          <div class="col-lg-4">
+
+            <div class="card mb-3">
+              <div class="card-block">
+                <div class="form-group">
+                  <div *ngFor="let oOption of otherOptions">
+                    <label for={{oOption.name}}>{{oOption.name}}</label>
+                    <input class="form-control" id={{oOption.name}} type="text" placeholder="{{oOption.value}}" disabled="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- col-lg-4><-->
+          </div>
+
+
+      <!-- row><-->
+      </div>
+
+  </fieldset>
 </div>
