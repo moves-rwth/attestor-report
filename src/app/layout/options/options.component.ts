@@ -5,6 +5,7 @@ import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
+import{ TooltipService } from '../../tooltip.service';
 
 @Component({
     selector: 'app-options',
@@ -20,7 +21,7 @@ export class OptionsComponent implements OnInit {
 
     otherOptions : Array<any> = new Array();
 
-    constructor(private http:Http) {
+    constructor(private http:Http, private tooltips:TooltipService) {
       this.alive = true;
 
       this.readOptionsJSONFile().subscribe(result => {
@@ -47,6 +48,13 @@ export class OptionsComponent implements OnInit {
 
       });
 
+      console.log(this.tooltips.getOptionTooltip('test'));
+
+
+    }
+
+    public tooltip(option : string ) : string {
+      return this.tooltips.getOptionTooltip(option);
     }
 
     readOptionsJSONFile(){
@@ -61,7 +69,7 @@ export class OptionsComponent implements OnInit {
     }
 
     private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+      return Promise.reject(error.message || error);
     }
 
 

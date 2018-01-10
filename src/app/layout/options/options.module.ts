@@ -5,11 +5,14 @@ import { OptionsRoutingModule } from './options-routing.module';
 import { OptionsComponent } from './options.component';
 import { PageHeaderModule } from './../../shared';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   imports: [
     CommonModule,
     OptionsRoutingModule,
-    PageHeaderModule
+    PageHeaderModule,
+    NgbModule.forRoot()
   ],
   declarations: [OptionsComponent]
 })

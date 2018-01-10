@@ -10,10 +10,10 @@
               <div class="card-block">
 
                 <div *ngFor="let bOption of booleanOptions">
-                  <div class="checkbox" *ngIf="bOption.value == 'true'">
+                  <div class="checkbox" *ngIf="bOption.value == 'true'" [ngbTooltip]="tooltip(bOption.name)">
                     <label><input type="checkbox" checked> {{bOption.name}} </label>
                   </div>
-                  <div class="checkbox" *ngIf="bOption.value == 'false'">
+                  <div class="checkbox" *ngIf="bOption.value == 'false'" [ngbTooltip]="tooltip(bOption.name)">
                     <label><input type="checkbox"> {{bOption.name}} </label>
                   </div>
                 </div>
@@ -28,7 +28,7 @@
               <div class="card-block">
                 <div class="form-group">
                   <div *ngFor="let oOption of otherOptions">
-                    <label for={{oOption.name}}>{{oOption.name}}</label>
+                    <label for={{oOption.name}} [ngbTooltip]="tooltip(oOption.name)">{{oOption.name}}</label>
                     <input class="form-control" id={{oOption.name}} type="text" placeholder="{{oOption.value}}" disabled="">
                   </div>
                 </div>
@@ -42,4 +42,9 @@
       </div>
 
   </fieldset>
+
+  <div>
+    Find detailed information about the options <a href="https://github.com/moves-rwth/attestor/wiki/Settings-file">here</a>.
+
+  </div>
 </div>
