@@ -3,7 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { VerificationResultsComponent } from './verification-results.component';
 
 const routes: Routes = [
-    { path: '', component: VerificationResultsComponent }
+    { path: '', component: VerificationResultsComponent,
+      children: [
+        { path: 'counterex', loadChildren: './components/counterex/counterex.module#CounterexModule'}
+      ]
+   }
 ];
 
 @NgModule({

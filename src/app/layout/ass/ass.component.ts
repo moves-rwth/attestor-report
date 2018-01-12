@@ -53,7 +53,7 @@ export class ASSComponent implements OnInit {
                                          this.statespaceStyle = result.text();
                                        });
 
-      // Load cytoscape style for state space visualisation
+      // Load cytoscape style for heap conf visualisation
       this.http.get('assets/cytoscapeStyle/styleHc.cycss')//, options)
               .takeWhile(() => this.alive)
               .subscribe(result => {
@@ -104,7 +104,6 @@ export class ASSComponent implements OnInit {
 
       console.log("Load state space");
 
-      let stateSpaceData : any ;
       let elem:HTMLElement = document.getElementById("cy");
       console.log(elem);
 

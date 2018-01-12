@@ -8,6 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TooltipService } from './tooltip.service';
+import { SharedService } from './shared.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -34,7 +35,8 @@ export function HttpLoaderFactory(http: Http) {
         })
     ],
     providers:[
-      TooltipService
+      TooltipService,
+      SharedService
     ],
     bootstrap: [AppComponent]
 })
