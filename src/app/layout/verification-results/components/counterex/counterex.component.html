@@ -4,7 +4,16 @@
         <div class="card-header">
             Failing trace for <br> {{formula}}
         </div>
-
+        <hr>
+        <div id="filter-button">
+          <div ngbDropdown class="d-inline-block dropdown">
+            <button class="btn btn-outline-primary" ngbDropdownToggle>State Filters</button>
+            <div ngbDropdownMenu>
+              <button class="dropdown-item" (click)="filterService.collapseChains(cy)">Collapse chains</button>
+              <button class="dropdown-item" (click)="filterService.removeFilters(cy)">Remove all filters</button>
+            </div>
+        </div>
+        </div>
       <div id="cy">
       </div>
       </div>

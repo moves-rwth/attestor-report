@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TooltipService } from './tooltip.service';
 import { SharedService } from './shared.service';
+import { CytoscapeFilterService } from './cytoscapeFilter.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -36,7 +37,8 @@ export function HttpLoaderFactory(http: Http) {
     ],
     providers:[
       TooltipService,
-      SharedService
+      SharedService,
+      CytoscapeFilterService
     ],
     bootstrap: [AppComponent]
 })

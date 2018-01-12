@@ -10,6 +10,9 @@ import * as dagre from 'cytoscape-dagre';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
 
+import{ CytoscapeFilterService } from '../../cytoscapeFilter.service';
+
+
 @Component({
     selector: 'app-ass',
     templateUrl: './ass.component.html',
@@ -35,7 +38,7 @@ export class ASSComponent implements OnInit {
 
     nodeId : number;
 
-    constructor(private http:Http) {
+    constructor(private http:Http, private filterService:CytoscapeFilterService) {
 
       dagre(cytoscape);
       //cytoscape('layout', 'dagre', 'dagre'); // register extension
@@ -118,14 +121,25 @@ export class ASSComponent implements OnInit {
                             motionBlur: true,
                             selectionType: 'single',
                             boxSelectionEnabled: false,
-                            autoungrabify: true
+                            autoungrabify: false
                           });
                           this.notLoaded = false;
                           this.cy.resize();
+
+                          // Remove all edges that are tagged as transitive
+                          this.cy.edges().forEach(function( e ) {
+                              var type = e.data('type');
+                              if(type == 'transitive') {
+                                  e.hide();
+                              }
+                          });
+
                           this.cy.on('select unselect', 'node', function(evt){
                             this.nodeId = cyOnCallback(evt);
                             this.onNodeTap(this.nodeId);
                           }.bind(this));
+
+                        console.log('Nodes' + this.cy.nodes());
 
                         console.log(this.nodeId);
 
@@ -185,7 +199,5 @@ export class ASSComponent implements OnInit {
     private handleError(error: any): Promise<any> {
     return Promise.reject(error.message || error);
     }
-
-
 
 }

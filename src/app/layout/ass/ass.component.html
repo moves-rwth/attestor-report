@@ -6,9 +6,18 @@
         <div class="card mb-3">
             <div class="card-header">State Space Viewer</div>
             <div class="card-block">
-              <div id="cy">
+              <div class="col text-right">
+                <div ngbDropdown class="d-inline-block dropdown">
+                  <button class="btn btn-outline-primary" ngbDropdownToggle>State Filters</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="filterService.collapseChains(cy)">Collapse chains</button>
+                    <button class="dropdown-item" (click)="filterService.removeFilters(cy)">Remove all filters</button>
+                  </div>
               </div>
             </div>
+            <div id="cy">
+            </div>
+          </div>
           </div>
       </div>
       <div class="col-lg-5">

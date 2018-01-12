@@ -6,6 +6,8 @@ import * as cytoscape from 'cytoscape';
 import * as dagre from 'cytoscape-dagre';
 
 import{ SharedService } from '../../../../shared.service';
+import{ CytoscapeFilterService } from '../../../../cytoscapeFilter.service';
+
 
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
@@ -20,6 +22,7 @@ export class CounterexComponent {
 
     formula : string;
     id : number;
+    cy : any;
 
     statespaceStyle : any;
     hcStyle : any;
@@ -29,7 +32,7 @@ export class CounterexComponent {
 
     alive : boolean;
 
-    constructor(private http:Http, private formulaService : SharedService) {
+    constructor(private http:Http, private formulaService : SharedService, private filterService : CytoscapeFilterService) {
       dagre(cytoscape);
 
       this.alive = true;
@@ -96,14 +99,13 @@ export class CounterexComponent {
       let elem:HTMLElement = document.getElementById("cy");
       console.log(elem);
 
-      let cy : any;
       let nodeId : number;
 
       this.readStateSpaceJSONFile(this.tracePath)
           .toPromise().then(
             (result) => {
                           console.log(result);
-                          cy = cytoscape({
+                          this.cy = cytoscape({
                             container : elem,
                             elements: result,
                             style: this.statespaceStyle,
@@ -113,8 +115,17 @@ export class CounterexComponent {
                             boxSelectionEnabled: false,
                             autoungrabify: true
                           });
-                          cy.resize();
-                          cy.on('select unselect', 'node', function(evt){
+                          this.cy.resize();
+                          
+                          // Remove all edges that are tagged as transitive
+                          this.cy.edges().forEach(function( e ) {
+                              var type = e.data('type');
+                              if(type == 'transitive') {
+                                  e.hide();
+                              }
+                          });
+
+                          this.cy.on('select unselect', 'node', function(evt){
                             nodeId = cyOnCallback(evt);
                             this.onNodeTap(nodeId);
                           }.bind(this));
