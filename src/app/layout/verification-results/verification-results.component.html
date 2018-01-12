@@ -39,14 +39,14 @@
                       <tbody>
                         <tr *ngFor="let phase of runtimePhasesArray">
                             <td> {{phase.name}} </td>
-                            <td> {{phase.time}}</td>
+                            <td> {{phase.time}} s</td>
                         </tr>
                       <tr>
                           <td colspan="2" class="divider"><hr /></td>
                       </tr>
                       <tr *ngFor="let total of runtimeTotalArray">
                           <td> {{total.name}} </td>
-                          <td> {{total.time}}</td>
+                          <td> {{total.time}} s</td>
 
                       </tr>
                       </tbody>
