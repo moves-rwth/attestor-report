@@ -10,6 +10,8 @@ import * as dagre from 'cytoscape-dagre';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
 
+import {JsonService} from '../../json.service'
+
 import{ CytoscapeFilterService } from '../../cytoscapeFilter.service';
 
 
@@ -38,7 +40,7 @@ export class ASSComponent implements OnInit {
 
     nodeId : number;
 
-    constructor(private http:Http, private filterService:CytoscapeFilterService) {
+    constructor(private http:Http, private filterService:CytoscapeFilterService, private jsonService:JsonService) {
 
       dagre(cytoscape);
       //cytoscape('layout', 'dagre', 'dagre'); // register extension
@@ -50,14 +52,17 @@ export class ASSComponent implements OnInit {
       this.alive = true;
 
       // Load cytoscape style for state space visualisation
-      this.http.get('assets/cytoscapeStyle/style.cycss')//, options)
+      console.log("Read Statespace Style");
+      this.jsonService.readStatespaceStyleJSON()
+      //this.http.get('assets/cytoscapeStyle/style.cycss')//, options)
                                        .takeWhile(() => this.alive)
                                        .subscribe(result => {
                                          this.statespaceStyle = result.text();
                                        });
 
       // Load cytoscape style for heap conf visualisation
-      this.http.get('assets/cytoscapeStyle/styleHc.cycss')//, options)
+      console.log("Read Heap Conf Style");
+      this.jsonService.readHeapConfStyleJSON()
               .takeWhile(() => this.alive)
               .subscribe(result => {
                   this.hcStyle = result.text();
@@ -110,7 +115,7 @@ export class ASSComponent implements OnInit {
       let elem:HTMLElement = document.getElementById("cy");
       console.log(elem);
 
-      this.readStateSpaceJSONFile(this.stateSpacePath)
+      this.jsonService.readStatespaceJSON()
           .toPromise().then(
             (result) => {
                           this.cy = cytoscape({
@@ -152,35 +157,12 @@ export class ASSComponent implements OnInit {
 
     }
 
-    // Read the provided state space file
-    private readStateSpaceJSONFile(filename : string){
-
-      return this.http.get(filename)//, options)
-          .takeWhile(() => this.alive)
-          .map((response: Response) => {
-              return response.json();
-          }
-          )
-          .catch(this.handleError);
-    }
-
-    // Read the heap configuration file with id
-    private readHCJSONFile(id : any){
-      return this.http.get(this.hcPath + "hc_" + id + ".json")//, options)
-          .takeWhile(() => this.alive)
-          .map((response: Response) => {
-              return response.json();
-          }
-          )
-          .catch(this.handleError);
-    }
-
     private onNodeTap(node : number){
       let hcContainer:HTMLElement = document.getElementById("cy2");
 
       let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'TB', nodeSep: '50' };
 
-      this.readHCJSONFile(node).toPromise().then(
+      this.jsonService.readHCJSON(node).toPromise().then(
         (hcResult) => {
           this.cy = cytoscape({
             container : hcContainer,
@@ -194,10 +176,6 @@ export class ASSComponent implements OnInit {
           });
         }
       );
-    }
-
-    private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
     }
 
 }

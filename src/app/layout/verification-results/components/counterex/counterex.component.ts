@@ -6,6 +6,8 @@ import * as cytoscape from 'cytoscape';
 import * as dagre from 'cytoscape-dagre';
 
 import{ SharedService } from '../../../../shared.service';
+import {JsonService} from '../../../../json.service'
+
 import{ CytoscapeFilterService } from '../../../../cytoscapeFilter.service';
 
 
@@ -27,25 +29,22 @@ export class CounterexComponent {
     statespaceStyle : any;
     hcStyle : any;
 
-    tracePath : string;
-    hcPath : string;
-
     alive : boolean;
 
-    constructor(private http:Http, private formulaService : SharedService, private filterService : CytoscapeFilterService) {
+    constructor(private formulaService : SharedService, private filterService : CytoscapeFilterService, private jsonService: JsonService) {
       dagre(cytoscape);
 
       this.alive = true;
 
       // Load cytoscape style for state space visualisation
-      this.http.get('assets/cytoscapeStyle/style.cycss')//, options)
+      this.jsonService.readStatespaceStyleJSON()//, options)
                                        .takeWhile(() => this.alive)
                                        .subscribe(result => {
                                          this.statespaceStyle = result.text();
                                        });
 
       // Load cytoscape style for heap conf visualisation
-      this.http.get('assets/cytoscapeStyle/styleHc.cycss')//, options)
+      this.jsonService.readHeapConfStyleJSON()//, options)
                                         .takeWhile(() => this.alive)
                                         .subscribe(result => {
                                         this.hcStyle = result.text();
@@ -58,8 +57,6 @@ export class CounterexComponent {
             this.formula = this.formulaService.getFormulaString();
             this.id = this.formulaService.getFormulaID();
 
-            this.tracePath = 'assets/attestorOutput/counterex' + this.id +'/trace.json';
-            this.hcPath = 'assets/attestorOutput/counterex' + this.id + '/';
             return true;
           } else {
             return false;
@@ -94,14 +91,13 @@ export class CounterexComponent {
       // Set the binded variables
       //this.stateSpacePath = ;
 
-      console.log("Load failing trace");
-
       let elem:HTMLElement = document.getElementById("cy");
       console.log(elem);
 
       let nodeId : number;
 
-      this.readStateSpaceJSONFile(this.tracePath)
+      console.log('Read failing trace');
+      this.jsonService.readTraceJSON(this.id)
           .toPromise().then(
             (result) => {
                           console.log(result);
@@ -116,7 +112,7 @@ export class CounterexComponent {
                             autoungrabify: true
                           });
                           this.cy.resize();
-                          
+
                           // Remove all edges that are tagged as transitive
                           this.cy.edges().forEach(function( e ) {
                               var type = e.data('type');
@@ -141,29 +137,13 @@ export class CounterexComponent {
 
     }
 
-    // Read the provided state space file
-    private readStateSpaceJSONFile(filename : string){
-
-      return this.http.get(filename)//, options)
-          .takeWhile(() => this.alive)
-          .map((response: Response) => {
-              return response.json();
-          }
-          )
-          .catch(this.handleError);
-    }
-
-    private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
-    }
-
     private onNodeTap(node : number){
       let hcContainer:HTMLElement = document.getElementById("cy2");
 
       let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'TB', nodeSep: '50' };
 
       let cy : any;
-      this.readHCJSONFile(node).toPromise().then(
+      this.jsonService.readTraceHCJSON(this.id, node).toPromise().then(
         (hcResult) => {
           cy = cytoscape({
             container : hcContainer,
@@ -177,37 +157,6 @@ export class CounterexComponent {
           });
         }
       );
-    }
-
-
-    render(){
-
-      let elem:HTMLElement = document.getElementById("cy")
-            // Load style
-      console.log(elem);
-
-                // Load rule data and display rule graph
-                let ruleData1 : any = { "nodes": [{"data": {"id": "a", "label": "Gene1"}},{"data": {"id": "b", "label": "Gene2"}}],"edges": [{"data": {"id": "ab","source": "a", "target": "b"}}]};
-                let styleData : any = 'node { background-color: red; }';
-
-                // Render rule
-                cytoscape({
-                    container : elem,
-                    elements: ruleData1,
-                    style: styleData
-                });
-      console.log("Cytoscape finished");
-    }
-
-    // Read the heap configuration file with id
-    private readHCJSONFile(id : any){
-      return this.http.get(this.hcPath + "hc_" + id + ".json")//, options)
-          .takeWhile(() => this.alive)
-          .map((response: Response) => {
-              return response.json();
-          }
-          )
-          .catch(this.handleError);
     }
 
     ngOnDestroy(){

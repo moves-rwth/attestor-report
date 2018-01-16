@@ -1,11 +1,12 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
 import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
+
 import{ TooltipService } from '../../tooltip.service';
+import {JsonService} from '../../json.service'
 
 @Component({
     selector: 'app-options',
@@ -21,10 +22,9 @@ export class OptionsComponent implements OnInit {
 
     otherOptions : Array<any> = new Array();
 
-    constructor(private http:Http, private tooltips:TooltipService) {
-      this.alive = true;
+    constructor(private tooltips:TooltipService, private jsonService:JsonService) {
 
-      this.readOptionsJSONFile().subscribe(result => {
+      this.jsonService.readOptionsJSON().subscribe(result => {
         //this.options = result;
 
         // Partition into boolean and other option values
@@ -57,26 +57,7 @@ export class OptionsComponent implements OnInit {
       return this.tooltips.getOptionTooltip(option);
     }
 
-    readOptionsJSONFile(){
-      // get all (displayed) options together with its values (even if default)
-          return this.http.get('assets/attestorInput/options.json')//, options)
-              .takeWhile(() => this.alive)
-              .map((response: Response) => {
-                  return response.json();
-              }
-          )
-          .catch(this.handleError);
-    }
-
-    private handleError(error: any): Promise<any> {
-      return Promise.reject(error.message || error);
-    }
-
-
     ngOnInit() {
     }
 
-    ngOnDestroy() {
-      this.alive = false;
-    }
 }

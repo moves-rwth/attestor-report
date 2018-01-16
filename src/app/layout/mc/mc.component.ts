@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
 import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
+
+import {JsonService} from '../../json.service'
 
 @Component({
     selector: 'app-mc',
@@ -14,42 +15,18 @@ import "rxjs/add/operator/takeWhile";
 })
 export class MCComponent implements OnInit {
 
-    alive : boolean;
-
     formulae : Array<string>;
 
-    constructor(private http:Http) {
-
-      this.alive = true;
-
+    constructor(private jsonService:JsonService) {
 
       // Get the input MC formulae from settings file
-      this.readSettingsJSONFile().subscribe(result => {
+      this.jsonService.readSettingsJSON().subscribe(result => {
         this.formulae = result.modelChecking.formulae.split(';');
       });
 
     }
 
     ngOnInit() {
-    }
-
-    readSettingsJSONFile(){
-      // get the summary information of the initial HCs
-          return this.http.get('assets/attestorInput/settings.json')//, options)
-              .takeWhile(() => this.alive)
-              .map((response: Response) => {
-                  return response.json();
-              }
-          )
-          .catch(this.handleError);
-    }
-
-    private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
-    }
-
-    ngOnDestroy() {
-      this.alive = false;
     }
 
 }

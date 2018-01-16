@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { OnDestroy } from "@angular/core";
 import { routerTransition } from '../../router.animations';
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
 import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
 import * as cytoscape from 'cytoscape';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
 
-
+import {JsonService} from '../../json.service'
 
 
 @Component({
@@ -34,24 +33,23 @@ export class GrammarComponent implements OnInit {
     alive : boolean;
 
 
-    constructor(private http:Http) {
+    constructor(private jsonService:JsonService) {
       this.rulePath = '';
       this.alive = true;
 
       // Get rule names from grammar file
-      this.grammarSubscription = this.readGrammarJSONFile().subscribe(result => {
+      this.grammarSubscription = this.jsonService.readGrammarJSON().subscribe(result => {
                                               this.ntEntry = result;
                                               this.ruleNames = result["0"].rules;
                                               }
                                             );
 
      // Load style
-     this.tempsubscription = this.http.get('assets/cytoscapeStyle/styleHc.cycss')//, options)
+     this.tempsubscription = this.jsonService.readHeapConfStyleJSON()//, options)
                                       .takeWhile(() => this.alive)
                                       .subscribe(result => {
                                         this.hcStyle = result.text();
                                       });
-     //this.grammarSubscription.add(this.tempsubscription);
 
       this.showRule = true;
 
@@ -65,31 +63,13 @@ export class GrammarComponent implements OnInit {
       this.alive = false;
     }
 
-    readGrammarJSONFile(){
-      // get users from api
-          return this.http.get('assets/grammarData/grammarExport.json')//, options)
-              .takeWhile(() => this.alive)
-              .map((response: Response) => {
-                  return response.json();
-              }
-          )
-          .catch(this.handleError);
-    }
-
-    private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
-    }
-
     // Load the input rule and let cytoscape render it into the rule container
     public loadRule(ntName : string, ruleIndex : number){
       this.showRule = true;
-      // Set the binded variables
-      this.ruleName = ntName + ' Rule' + ruleIndex;
-      this.rulePath = 'assets/grammarData/' + ntName + 'Rule' + ruleIndex + '.json';
 
       let ruleData : any ;
 
-      this.readRuleJSONFile(ntName + 'Rule' + ruleIndex)
+      this.jsonService.readRuleJSON(ntName,ruleIndex)
           .toPromise().then(
             (result) => {
                           let elem:HTMLElement = document.getElementById("rule");
@@ -104,18 +84,6 @@ export class GrammarComponent implements OnInit {
                             this.rulePath = 'File not found';
                             this.showRule = false;
                           });
-    }
-
-    // Read the provided rule file
-    private readRuleJSONFile(filename : string){
-
-      return this.http.get('assets/grammarData/' + filename + '.json')//, options)
-          .takeWhile(() => this.alive)
-          .map((response: Response) => {
-              return response.json();
-          }
-          )
-          .catch(this.handleError);
     }
 
 /*

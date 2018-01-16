@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SharedService {
 
-  //private optionTooltips: { [optionName: string] : string } = {};
-
   formula : string;
   id : number;
 

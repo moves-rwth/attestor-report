@@ -5,6 +5,8 @@ import { Http, Response } from '@angular/http';
 import "rxjs/add/operator/takeWhile";
 import 'rxjs/add/operator/catch';
 
+import {JsonService} from '../../json.service'
+
 @Component({
     selector: 'app-verification-results',
     templateUrl: './verification-results.component.html',
@@ -12,7 +14,6 @@ import 'rxjs/add/operator/catch';
     animations: [routerTransition()]
 })
 export class VerificationResultsComponent implements OnInit {
-    alive : boolean;
 
     runtimePhasesArray : Array<any>;
     runtimeTotalArray : Array<any>;
@@ -22,12 +23,11 @@ export class VerificationResultsComponent implements OnInit {
     mcresultsArray : Array<any>;
 
 
-    constructor(private http:Http) {
-      this.alive = true;
+    constructor(private jsonService:JsonService) {
 
       // Load json file with general attestor output
       console.log("Read summary file");
-      this.readGeneralInfoJSONFile().subscribe(result => {
+      this.jsonService.readAnalysisSummaryJSON().subscribe(result => {
                                               console.log(result);
                                               this.runtimePhasesArray = result["1"].runtime["0"].phases;
                                               this.runtimeTotalArray = result["1"].runtime["1"].total;
@@ -41,22 +41,4 @@ export class VerificationResultsComponent implements OnInit {
 
     }
     ngOnInit() { }
-
-    ngOnDestroy(){
-      this.alive = false;
-    }
-
-    readGeneralInfoJSONFile(){
-          return this.http.get('assets/attestorOutput/analysisSummary.json')//, options)
-              .takeWhile(() => this.alive)
-              .map((response: Response) => {
-                  return response.json();
-              }
-          )
-          .catch(this.handleError);
-    }
-
-    private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
-    }
 }
