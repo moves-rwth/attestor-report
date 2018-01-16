@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LocationService {
 
+  // Benchmark overview
+  static readonly benchmarks = 'benchmarks.json';
+
+  // ID of currently chosen benchmark
   bid : number;
+
   static readonly settings = '/attestorInput/settings.json';
   static readonly analysisSummary = '/attestorOutput/analysisSummary.json';
   static readonly messagesLog = 'http://localhost:9200/benchmark?bid=';

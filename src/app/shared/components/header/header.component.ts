@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
+import { JsonService } from '../../../json.service';
+import { LocationService } from '../../../location.service';
+
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -11,12 +15,21 @@ export class HeaderComponent implements OnInit {
 
     pushRightClass: string = 'push-right';
 
-    constructor(private translate: TranslateService, public router: Router) {
+    benchmarks : Array<number>;
+
+    constructor(private jsonService:JsonService, private locationService:LocationService, public router: Router) {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
                 this.toggleSidebar();
             }
         });
+
+        this.jsonService.readBenchmarksJSON()
+                                  .subscribe(result => {
+                                                console.log("Benchmarks: " + result);
+                                                this.benchmarks = result;
+                                    });
+
     }
 
     ngOnInit() {}
@@ -34,5 +47,12 @@ export class HeaderComponent implements OnInit {
     rltAndLtr() {
         const dom: any = document.querySelector('body');
         dom.classList.toggle('rtl');
+    }
+
+    routeToBenchmark(newBId : number){
+      this.locationService.bid = newBId;
+      console.log("Bid set to " + newBId);
+
+      this.router.navigate(["/dashboard"]);
     }
 }

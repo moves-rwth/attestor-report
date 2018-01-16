@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { Router, NavigationEnd } from '@angular/router';
+
 
 import "rxjs/add/operator/takeWhile";
 import 'rxjs/add/operator/catch';
@@ -25,7 +27,7 @@ export class DashboardComponent implements OnInit {
     public numberSuccessfulForm : number;
     public numberFailForm : number;
 
-    constructor(private jsonService:JsonService) {
+    constructor(private jsonService:JsonService, private router: Router) {
 
       console.log("Read summary file");
       this.jsonService.readSettingsJSON().subscribe(result => {
@@ -53,6 +55,16 @@ export class DashboardComponent implements OnInit {
 
 
     ngOnInit() {
+      this.router.routeReuseStrategy.shouldReuseRoute = function(){
+        return false;
+      };
+
+      this.router.events.subscribe((evt) => {
+        if (evt instanceof NavigationEnd) {
+          this.router.navigated = false;
+          window.scrollTo(0, 0);
+        }
+      });
 
     }
 

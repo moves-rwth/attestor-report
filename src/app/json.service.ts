@@ -12,6 +12,10 @@ export class JsonService {
     this.alive = true;
   }
 
+  public readBenchmarksJSON(){
+    return this.readJSON('assets/' + LocationService.benchmarks);
+  }
+
   public readSettingsJSON(){
     return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.settings);
   }
