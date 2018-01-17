@@ -26,7 +26,7 @@ export class LocationService {
   // Counterexample
   static readonly trace = '/attestorOutput/counterex';
   static readonly traceHC = '/attestorOutput/counterex';
-
+  static readonly traceInputHC = '/concreteHC.json';
 
   // Cytoscape
   static readonly statespaceStyle = 'assets/cytoscapeStyle/style.cycss';

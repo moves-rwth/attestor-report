@@ -81,9 +81,30 @@ export class CounterexComponent {
       return tmp;
     };
 
-    //let myAdd = function(x:number) { console.log("TestmyAdd" + x);};
-    //let myAdd: (x: number, y: number) => number =
-    //function(x: number, y: number): number { return x + y; };
+
+    // Load the concrete input hc
+    let inputHcContainer:HTMLElement = document.getElementById("cy3");
+
+    let layoutInputHc : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'TB', nodeSep: '50' };
+
+    let cyInput : any;
+    this.jsonService.readTraceInputHCJSON(this.id).toPromise().then(
+      (inputHcResult) => {
+        cyInput = cytoscape({
+          container : inputHcContainer,
+          elements: inputHcResult,
+          style: this.hcStyle,
+          layout: layoutInputHc,
+          motionBlur: true,
+          selectionType: 'single',
+          boxSelectionEnabled: false,
+          autoungrabify: false
+        });
+      }
+    );
+
+
+
 
       // load layout
       let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'LR' };

@@ -78,6 +78,10 @@ export class JsonService {
     return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid + '/hc_' + hcId + '.json');
   }
 
+  readTraceInputHCJSON(tid : number){
+    return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid + LocationService.traceInputHC);
+  }
+
   private readJSON(location : string){
     return this.http.get(location)
         .takeWhile(() => this.alive)
