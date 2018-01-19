@@ -74,10 +74,12 @@ export class DashboardComponent implements OnInit {
         let type : string = "";
         console.log("Message type: " + input[message].level);
         switch(input[message].level){
-          case "info": type = "info"; break;
+          case "INFO": type = "info"; break;
           case "WARN": type = "warning"; break;
           case "LTL-SAT": type = "success"; break;
           case "LTL-UNSAT": type = "danger"; break;
+          case "ERROR": type = "danger"; break;
+
         }
 
         if( type !== ""){

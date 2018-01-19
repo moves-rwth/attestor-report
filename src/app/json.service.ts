@@ -3,6 +3,9 @@ import { Http, Response } from '@angular/http';
 
 import { LocationService } from './location.service'
 
+import 'rxjs/add/operator/toPromise';
+import "rxjs/add/operator/takeWhile";
+
 @Injectable()
 export class JsonService {
 
@@ -13,7 +16,8 @@ export class JsonService {
   }
 
   public readBenchmarksJSON(){
-    return this.readJSON('assets/' + LocationService.benchmarks);
+    return this.readJSON(LocationService.benchmarks);
+    //return this.readJSON('assets/' + LocationService.benchmarks);
   }
 
   public readSettingsJSON(){
@@ -21,7 +25,8 @@ export class JsonService {
   }
 
   public readAnalysisSummaryJSON(){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.analysisSummary);
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.analysisSummary);
+    return this.readJSON(LocationService.analysisSummary + this.locationService.bid);
   }
 
   readMessagesJSON(){
@@ -37,7 +42,8 @@ export class JsonService {
   }
 
   readInitialHCsSummaryJSON(){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.initConfSummary);
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.initConfSummary);
+    return this.readJSON(LocationService.initConfSummary + this.locationService.bid);
   }
 
   readInitHCJSON(hcId : number){
@@ -45,7 +51,8 @@ export class JsonService {
   }
 
   readOptionsJSON(){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.options);
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.options);
+    return this.readJSON(LocationService.options + this.locationService.bid);
   }
 
   readInputProgram(){
@@ -83,10 +90,11 @@ export class JsonService {
   }
 
   private readJSON(location : string){
+    console.log("Trying to read " + location);
     return this.http.get(location)
         .takeWhile(() => this.alive)
         .map((response: Response) => {
-            console.log("Successful "  + response.json());
+            console.log("Successful reading " + location + " "  + response.json());
             return response.json();
         }
     )
