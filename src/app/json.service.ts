@@ -21,7 +21,8 @@ export class JsonService {
   }
 
   public readSettingsJSON(){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.settings);
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.settings);
+    return this.readJSON(LocationService.settings + this.locationService.bid);
   }
 
   public readAnalysisSummaryJSON(){
@@ -34,11 +35,14 @@ export class JsonService {
   }
 
   readGrammarJSON(){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.grammar);
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.grammar);
+    return this.readJSON(LocationService.grammar + this.locationService.bid);
   }
 
   readRuleJSON(ntName : string, ruleIndex : number){
-    return this.readJSON('assets' + LocationService.rules + ntName + 'Rule' + ruleIndex + '.json');
+    //return this.readJSON('assets' + LocationService.rules + ntName + 'Rule' + ruleIndex + '.json');
+    return this.readJSON(LocationService.rules + this.locationService.bid + '&ntName=' + ntName + '&ruleID=' + ruleIndex);
+
   }
 
   readInitialHCsSummaryJSON(){
@@ -47,7 +51,8 @@ export class JsonService {
   }
 
   readInitHCJSON(hcId : number){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.initConf + hcId + '.json');
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.initConf + hcId + '.json');
+    return this.readJSON(LocationService.initConf + this.locationService.bid  + '&hcID=' + hcId);
   }
 
   readOptionsJSON(){
@@ -56,17 +61,21 @@ export class JsonService {
   }
 
   readInputProgram(){
-    return this.http.get('assets/benchmark' + this.locationService.bid + LocationService.inputProgram)//, options)
+    //return this.http.get('assets/benchmark' + this.locationService.bid + LocationService.inputProgram)//, options)
+    return this.http.get(LocationService.inputProgram + this.locationService.bid)//, options)
         .takeWhile(() => this.alive)
     .catch(this.handleError);
   }
 
   readStatespaceJSON(){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.statespace);
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.statespace);
+    return this.readJSON(LocationService.statespace + this.locationService.bid);
   }
 
   readHCJSON(id : any){
-    return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.heapconf + id + '.json');
+    //return this.readJSON('assets/benchmark' + this.locationService.bid + LocationService.heapconf + id + '.json');
+    return this.readJSON(LocationService.heapconf + this.locationService.bid + "&hcID=" + id);
+
   }
 
   readStatespaceStyleJSON(){
@@ -78,15 +87,19 @@ export class JsonService {
   }
 
   readTraceJSON(tid : number){
-    return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid +'/trace.json');
+    //return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid +'/trace.json');
+    return this.readJSON(LocationService.trace + this.locationService.bid + '&cexID=' + tid);
   }
 
   readTraceHCJSON(tid : number, hcId : number){
-    return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid + '/hc_' + hcId + '.json');
+    //return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid + '/hc_' + hcId + '.json');
+    return this.readJSON(LocationService.trace + this.locationService.bid + '&cexID=' + tid + '&hcID=' + hcId);
   }
 
   readTraceInputHCJSON(tid : number){
-    return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid + LocationService.traceInputHC);
+    //return this.readJSON('assets/benchmark'+ this.locationService.bid + LocationService.trace + tid + LocationService.traceInputHC);
+    return this.readJSON(LocationService.traceInputHC + this.locationService.bid + '&cexID=' + tid);
+
   }
 
   private readJSON(location : string){

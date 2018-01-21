@@ -65,7 +65,7 @@ export class InitConfComponent implements OnInit {
       this.showInitHC = true;
       this.initialHCNumber = HCid;
 
-      this.jsonService.readHCJSON(HCid)
+      this.jsonService.readInitHCJSON(HCid)
           .toPromise().then(
             (result) => {
                           let elem:HTMLElement = document.getElementById('initHC');

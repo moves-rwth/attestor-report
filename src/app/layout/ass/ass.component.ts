@@ -160,7 +160,7 @@ export class ASSComponent implements OnInit {
     private onNodeTap(node : number){
       let hcContainer:HTMLElement = document.getElementById("cy2");
 
-      let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'TB', nodeSep: '50' };
+      let layoutHC : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'TB', nodeSep: '50' };
 
       this.jsonService.readHCJSON(node).toPromise().then(
         (hcResult) => {
@@ -168,7 +168,7 @@ export class ASSComponent implements OnInit {
             container : hcContainer,
             elements: hcResult,
             style: this.hcStyle,
-            layout: layout,
+            layout: layoutHC,
             motionBlur: true,
             selectionType: 'single',
             boxSelectionEnabled: false,

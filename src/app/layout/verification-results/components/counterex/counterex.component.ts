@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ElementRef, Input } from '@angular/core';
 import {Http, Response, RequestOptions, Headers} from '@angular/http';
 
-
 import * as cytoscape from 'cytoscape';
 import * as dagre from 'cytoscape-dagre';
 
