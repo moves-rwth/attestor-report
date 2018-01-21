@@ -1,0 +1,36 @@
+<div class="row mt-3">
+
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">Program</div>
+            <div class="card-block">
+                <ngb-tabset>
+                    <ngb-tab title="Overview">
+                        <ng-template ngbTabContent>
+
+                          <p class=vertSpace></p>
+                          <ul>
+                            <li> Analysed Class : {{analysedClass}} </li>
+                            <li> Analysed Method : {{analysedMethod}} </li>
+                            <li> Classpath : {{classpath}} </li>
+                          </ul>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Class">
+                        <ng-template ngbTabContent>
+                          <pre><handy-syntax-highlighter [language]="'java'" [content]="code"></handy-syntax-highlighter></pre>
+
+                            <!--<p class=vertSpace></p>
+                            <pre><code>{{code}}</code></pre>-->
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Method">
+                        <ng-template ngbTabContent>
+                           Display method def here!
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+    </div>
+</div>
