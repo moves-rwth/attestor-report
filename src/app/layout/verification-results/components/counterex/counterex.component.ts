@@ -30,6 +30,10 @@ export class CounterexComponent {
 
     alive : boolean;
 
+    stmt : any;
+    ap : any;
+    apPresent : boolean = false;
+
     constructor(private formulaService : SharedService, private filterService : CytoscapeFilterService, private jsonService: JsonService) {
       dagre(cytoscape);
 
@@ -141,9 +145,22 @@ export class CounterexComponent {
                               }
                           });
 
-                          this.cy.on('select unselect', 'node', function(evt){
+                          this.cy.on('select', 'node', function(evt){
                             nodeId = cyOnCallback(evt);
                             this.onNodeTap(nodeId);
+
+                            var node = this.cy.getElementById( nodeId );
+
+                            this.stmt = node.data('statement');
+                            this.ap = node.data('propositions');
+                            console.log(this.stmt);
+                            console.log(this.ap);
+
+                            if(this.ap.length != 0){
+                              this.apPresent = true;
+                            } else {
+                              this.apPresent = false;
+                            }
                           }.bind(this));
 
                         console.log(nodeId);

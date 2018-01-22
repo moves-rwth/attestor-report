@@ -37,8 +37,14 @@ export class ASSComponent implements OnInit {
     alive : boolean;
 
     cy : any;
+    cy2 : any;
 
+    // Information about currently selected heap state
     nodeId : number;
+    stmt : any;
+    ap : any;
+    apPresent : boolean = false;
+
 
     constructor(private http:Http, private filterService:CytoscapeFilterService, private jsonService:JsonService) {
 
@@ -139,14 +145,25 @@ export class ASSComponent implements OnInit {
                               }
                           });
 
-                          this.cy.on('select unselect', 'node', function(evt){
+                          this.cy.on('select', 'node', function(evt){
                             this.nodeId = cyOnCallback(evt);
                             this.onNodeTap(this.nodeId);
+
+                            //var node = this.cy.$('node:selected');
+                            var node = this.cy.getElementById( this.nodeId );
+                            //
+                            this.stmt = node.data('statement');
+                            this.ap = node.data('propositions');
+                            if(this.ap.length != 0){
+                              this.apPresent = true;
+                            } else {
+                              this.apPresent = false;
+                            }
                           }.bind(this));
 
-                        console.log('Nodes' + this.cy.nodes());
-
-                        console.log(this.nodeId);
+                        //'<p class="ac-node-type"><i>Program statement:</i><br/>{{statement}}</p><br/>',
+                        //'<p class="ac-node-type"><i>Atomic propositions:</i></p>',
+                        //'{{#each propositions}}<p class="ac-node-type"><i class="fa fa-info-circle"></i> {{ this }}</p>{{/each}}<br/>'
 
 
                         },
@@ -164,7 +181,7 @@ export class ASSComponent implements OnInit {
 
       this.jsonService.readHCJSON(node).toPromise().then(
         (hcResult) => {
-          this.cy = cytoscape({
+          this.cy2 = cytoscape({
             container : hcContainer,
             elements: hcResult,
             style: this.hcStyle,
