@@ -14,7 +14,6 @@ const routes: Routes = [
             { path: 'options', loadChildren: './options/options.module#OptionsModule' },
             { path: 'verification-results', loadChildren: './verification-results/verification-results.module#VerificationResultsModule' },
             { path: 'ass', loadChildren: './ass/ass.module#ASSModule' },
-            { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
         ]
     }
 ];
