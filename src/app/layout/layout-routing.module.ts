@@ -13,7 +13,7 @@ const routes: Routes = [
             { path: 'mc', loadChildren: './mc/mc.module#MCModule' },
             { path: 'options', loadChildren: './options/options.module#OptionsModule' },
             { path: 'verification-results', loadChildren: './verification-results/verification-results.module#VerificationResultsModule' },
-            { path: 'ass', loadChildren: './ass/ass.module#ASSModule' },
+            { path: 'statespace', loadChildren: './ass/ass.module#ASSModule' },
         ]
     }
 ];

@@ -1,6 +1,6 @@
 <div class="card-block">
     <div class="list-group" *ngFor="let formula of formulae">
-        <a href="#" class="list-group-item clearfix d-block" *ngIf="formula.satisfied == 'true'">
+        <a class="list-group-item clearfix d-block" *ngIf="formula.satisfied == 'true'">
             <i class="fa fa-check-square-o"></i> {{formula.formula}}
             <span style="color:green" class="float-right small"><em>pass</em></span>
         </a>
