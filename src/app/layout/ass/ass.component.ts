@@ -46,7 +46,7 @@ export class ASSComponent implements OnInit {
     apPresent : boolean = false;
 
 
-    constructor(private http:Http, private filterService:CytoscapeFilterService, private jsonService:JsonService) {
+    constructor(private http:Http, public filterService:CytoscapeFilterService, private jsonService:JsonService) {
 
       dagre(cytoscape);
       //cytoscape('layout', 'dagre', 'dagre'); // register extension

@@ -1,38 +1,38 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
     <ul class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Analysis Summary' | translate }}
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Analysis Summary'}}
         </a>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">
-                <span><i class="fa fa-folder-open"></i>&nbsp; {{ 'Input' || translate }}</span>
+                <span><i class="fa fa-folder-open"></i>&nbsp; {{ 'Input'}}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
                     <li>
-                        <a routerLink="/program" [routerLinkActive]="['router-link-active']"><span>{{ 'Program' | translate }}</span></a>
+                        <a routerLink="/program" [routerLinkActive]="['router-link-active']"><span>{{ 'Program'}}</span></a>
                     </li>
                     <li>
-                        <a routerLink="/init-conf" [routerLinkActive]="['router-link-active']"><span>{{ 'Initial Heap Configurations' | translate }}</span></a>
+                        <a routerLink="/init-conf" [routerLinkActive]="['router-link-active']"><span>{{ 'Initial Heap Configurations'}}</span></a>
                     </li>
                     <li>
-                        <a routerLink="/mc" [routerLinkActive]="['router-link-active']"><span>{{ 'Model Checking' | translate }}</span></a>
+                        <a routerLink="/mc" [routerLinkActive]="['router-link-active']"><span>{{ 'Model Checking'}}</span></a>
                     </li>
                     <li>
-                        <a routerLink="/options" [routerLinkActive]="['router-link-active']"><span>{{ 'Attestor Options' | translate }}</span></a>
+                        <a routerLink="/options" [routerLinkActive]="['router-link-active']"><span>{{ 'Attestor Options'}}</span></a>
                     </li>
                     <li>
-                        <a routerLink="/grammar" [routerLinkActive]="['router-link-active']"><span>{{ 'Grammar' | translate }}</span></a>
+                        <a routerLink="/grammar" [routerLinkActive]="['router-link-active']"><span>{{ 'Grammar'}}</span></a>
                     </li>
                 </ul>
             </li>
         </div>
 
         <a routerLink="/verification-results" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-play"></i>&nbsp;{{ 'Verification Results' | translate }}
+            <i class="fa fa-play"></i>&nbsp;{{ 'Verification Results'}}
         </a>
         <a routerLink="/statespace" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-sitemap"></i>&nbsp;{{ 'Abstract State Space' | translate }}
+            <i class="fa fa-sitemap"></i>&nbsp;{{ 'Abstract State Space'}}
         </a>
     </ul>
 </nav>

@@ -34,7 +34,7 @@ export class CounterexComponent {
     ap : any;
     apPresent : boolean = false;
 
-    constructor(private formulaService : SharedService, private filterService : CytoscapeFilterService, private jsonService: JsonService) {
+    constructor(private formulaService : SharedService, public filterService : CytoscapeFilterService, private jsonService: JsonService) {
       dagre(cytoscape);
 
       this.alive = true;
