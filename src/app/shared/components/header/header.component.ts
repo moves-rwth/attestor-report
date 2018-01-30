@@ -79,6 +79,6 @@ export class HeaderComponent implements OnInit{
       this.locationService.bid = newBId;
       console.log("Bid set to " + newBId);
 
-      this.router.navigate(["/dashboard", { queryParams: { 'refresh': 1 } }]);
+      this.router.navigate(['/dashboard', { 'refresh': newBId}]);
     }
 }

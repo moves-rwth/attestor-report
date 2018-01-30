@@ -5,9 +5,14 @@
 
     <div class="form-group">
 
+    <div *ngIf="formulae != undefined">
       <div *ngFor="let formula of formulae">
           <input class="form-control" id="formula" type="text" placeholder={{formula}} disabled="">
       </div>
+    </div>
+
+    <div *ngIf="formulae == undefined">
+      No formulae specified.
     </div>
 
     <div>

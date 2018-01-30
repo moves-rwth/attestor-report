@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Params, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
 
 import { Http, Response } from '@angular/http';
@@ -20,7 +20,7 @@ export class LayoutComponent implements OnInit {
     read : boolean = true;
     alive : boolean = true;
 
-    constructor(public router: Router,private http:Http, private locationService:LocationService, private jsonService:JsonService) {
+    constructor(public route : ActivatedRoute, public router: Router,private http:Http, private locationService:LocationService, private jsonService:JsonService) {
 
       if(this.locationService.bid == undefined){
         console.log("Initially setting read to false");
@@ -47,6 +47,8 @@ export class LayoutComponent implements OnInit {
                     this.locationService.bid = result[0].id;
                     console.log("Initially setting bid");
                     this.read = true;
+                    this.router.navigate(['/dashboard', { 'refresh': Math.floor(Math.random() * (100000 - 1 + 1)) + 1}]);
+                      //this.router.navigate([this.router.url]);
                   }
 
                   // Display the report
