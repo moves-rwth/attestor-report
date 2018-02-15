@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
+import { map } from 'rxjs/operators';
 
 import { Http, Response } from '@angular/http';
 import { TimerObservable } from "rxjs/observable/TimerObservable";
@@ -33,9 +34,11 @@ export class LayoutComponent implements OnInit {
         .subscribe(() => {
           console.log("Subscribing");
           this.http.get(LocationService.benchmarks)
-                .map(response =>
+            .pipe(
+                map(response =>
                   response.json()
                   )
+                )
                 .subscribe(result => {
                   console.log("Successfully read, now proceed");
                   if(this.locationService.benchmarks != result){

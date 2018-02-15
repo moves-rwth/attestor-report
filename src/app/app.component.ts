@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+//import { TranslateService } from '@ngx-translate/core';
 
 import { JsonService } from './json.service';
 @Component({
@@ -8,11 +8,11 @@ import { JsonService } from './json.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    constructor(private translate: TranslateService, private jsonService : JsonService) {
-        translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa']);
-        translate.setDefaultLang('en');
-        const browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/en|fr|ur|es|it|fa/) ? browserLang : 'en');
+    constructor( private jsonService : JsonService) {
+        //translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa']);
+        //translate.setDefaultLang('en');
+        //const browserLang = translate.getBrowserLang();
+        //translate.use(browserLang.match(/en|fr|ur|es|it|fa/) ? browserLang : 'en');
     }
 
     ngOnDestroy() {

@@ -5,6 +5,8 @@ import { LocationService } from './location.service'
 
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
+import { map } from 'rxjs/operators';
+
 
 @Injectable()
 export class JsonService {
@@ -106,10 +108,12 @@ export class JsonService {
     console.log("Trying to read " + location);
     return this.http.get(location)
         .takeWhile(() => this.alive)
-        .map((response: Response) => {
+        .pipe(
+          map((response: Response) => {
             console.log("Successful reading " + location + " "  + response.json());
             return response.json();
         }
+    )
     )
     .catch(this.handleError);
   }
