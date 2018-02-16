@@ -5,6 +5,7 @@ import { LocationService } from './location.service'
 
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
+import 'rxjs/add/operator/catch';
 import { map } from 'rxjs/operators';
 
 
@@ -113,7 +114,7 @@ export class JsonService {
             console.log("Successful reading " + location + " "  + response.json());
             return response.json();
         }
-    )
+      )
     )
     .catch(this.handleError);
   }
