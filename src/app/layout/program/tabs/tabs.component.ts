@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
+import { Component } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/toPromise';
-import "rxjs/add/operator/takeWhile";
 
 import {JsonService} from '../../../json.service'
 
@@ -12,12 +8,12 @@ import {JsonService} from '../../../json.service'
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss']
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent {
 
   analysedClass : string;
   classpath : string;
   analysedMethod : string;
-  code : string = 'public void methodA(){ int a = 0; int b = 0; a = a + b; }';
+  code : string = '';
 
   constructor(private jsonService:JsonService) {
 
@@ -35,9 +31,6 @@ export class TabsComponent implements OnInit {
           });
 
 
-  }
-
-  ngOnInit() {
   }
 
 }

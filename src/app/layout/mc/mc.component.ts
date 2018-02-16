@@ -1,9 +1,6 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Subscription } from "rxjs/Subscription";
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/toPromise';
-import "rxjs/add/operator/takeWhile";
 
 import {JsonService} from '../../json.service'
 
@@ -13,7 +10,7 @@ import {JsonService} from '../../json.service'
     styleUrls: ['./mc.component.scss'],
     animations: [routerTransition()]
 })
-export class MCComponent implements OnInit {
+export class MCComponent{
 
     formulae : Array<string>;
 
@@ -21,12 +18,10 @@ export class MCComponent implements OnInit {
 
       // Get the input MC formulae from settings file
       this.jsonService.readSettingsJSON().subscribe(result => {
-        this.formulae = result.modelChecking.formulae.split(';');
+        if(result.modelChecking.formulae != undefined) {
+          this.formulae = result.modelChecking.formulae.split(';');
+        }
       });
 
     }
-
-    ngOnInit() {
-    }
-
 }

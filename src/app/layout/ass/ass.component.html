@@ -38,9 +38,6 @@
     </div>
 
   <div *ngIf="showStateSpace"> <!-- Check here is extended report is necessary!!!-->
-
-
-
     <div id="loading" *ngIf="notLoaded">
       <p>Loading state space...</p>
       <!--<p id="loadTroubleshoot">
@@ -51,66 +48,6 @@
 
       <span class="fa fa-refresh fa-spin"></span>
     </div>
-
-
-    <!--<div id="search-wrapper">
-      <input type="text" class="form-control" id="search" placeholder="Search">
-    </div>
-
-    <div id="info">
-    </div>
-
-
-    <button id="reset" class="btn btn-default"><i class="fa fa-arrows-h"></i></button>
-
-    <button id="filter" class="btn btn-default"><i class="fa fa-filter"></i></button>
-
-    <button id="about" class="btn btn-default" (click)="displayAbout()"><i class="fa fa-info"></i></button>-->
-
-  <!--<title>Attestor Statespace Viewer</title>
-
-    <div id="cy"></div>
-    <div id="cy2"></div>
-    <div id="loading">
-      <p>Loading state space...</p>
-      <p id="loadTroubleshoot"><abbr title="Large state spaces might require a few seconds. Furthermore note that this page has to be accessed from a running http server.">
-      Why does this take so long?
-      <abbr/></p>
-      <span class="fa fa-refresh fa-spin"></span>
-    </div>
-
-
-
-
-
-    <script src="lib/fastclick.min.js"></script>
-    <script src="lib/jquery.min.js"></script>
-
-    <script src="lib/cytoscape.min.js"></script>
-
-    <script src="lib/dagre.min.js"></script>
-    <script src="lib/cytoscape-dagre.js"></script>
-
-    <script src="lib/jquery.qtip.min.js"></script>
-    <link href="lib/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
-    <script src="lib/cytoscape-qtip.js"></script>
-
-    <script src="lib/bluebird.min.js"></script>
-    <script src="lib/bootstrap.min.js"></script>
-    <script src="lib/typeahead.bundle.js"></script>
-    <script src="lib/handlebars.min.js"></script>
-    <script src="lib/lodash.min.js"></script>
-    <script src="lib/cytoscape-cxtmenu.js"></script>
-
-    <script src="lib/attestor-viewer.js"></script>
-
-    <button id="reset" class="btn btn-default"><i class="fa fa-arrows-h"></i></button>
-
-    <button id="filter" class="btn btn-default"><i class="fa fa-filter"></i></button>
-
-    <button id="about" class="btn btn-default"><i class="fa fa-info"></i></button>
-
-  -->
 
   <div id="about-content" *ngIf="displayAboutFlag">
     <p>Key:</p>
@@ -131,28 +68,4 @@
 
     <p>Design inspired by <a target="_blank" href="http://www.wineandcheesemap.com/">wineandcheesemap <i class="fa fa-external-link"></i></a>. </p>
   </div>
-
-    <!--<div id="filters">
-
-      <div class="filterset-section-title">Options</div>-->
-
-      <!--<div class="filtersets">
-        <div class="filterset">
-          Test
-          <input id="focusState" type="checkbox" checked></input><label for="focusState">Focus selected state</label><br />
-        </div>
-      </div>
-
-      <div class="filterset-section-title">State filters</div>
-
-      <div class="filtersets">
-        <div class="filterset">
-
-          Test
-          <input id="essentialStatesOnly" type="checkbox"></input><label for="essentialStatesOnly">Hide chains</label>
-        </div>
-      </div>-->
-    <!--</div>
-
-  </div>-->
 </div>

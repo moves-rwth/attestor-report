@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-
 import { OnDestroy } from "@angular/core";
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
-import { Subscription } from "rxjs/Subscription";
-import 'rxjs/add/operator/catch';
+
 import * as cytoscape from 'cytoscape';
 import * as dagre from 'cytoscape-dagre';
+
+import { Subscription } from "rxjs/Subscription";
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import "rxjs/add/operator/takeWhile";
 
 import {JsonService} from '../../json.service'
-
 import{ CytoscapeFilterService } from '../../cytoscapeFilter.service';
 
 
@@ -21,14 +20,13 @@ import{ CytoscapeFilterService } from '../../cytoscapeFilter.service';
     styleUrls: ['./ass.component.scss'],
     animations: [routerTransition()]
 })
-export class ASSComponent implements OnInit {
+export class ASSComponent{
     showStateSpace : boolean;
     displayAboutFlag : boolean;
     notLoaded : boolean;
 
     stateSpacePath : string = 'assets/stateSpaceData/statespace.json';
     hcPath : string = 'assets/stateSpaceData/';
-
 
     // Style for cytoscape state space generation
     statespaceStyle : any;
@@ -46,21 +44,18 @@ export class ASSComponent implements OnInit {
     apPresent : boolean = false;
 
 
-    constructor(private http:Http, public filterService:CytoscapeFilterService, private jsonService:JsonService) {
+    constructor( public filterService:CytoscapeFilterService, private jsonService:JsonService) {
 
       dagre(cytoscape);
-      //cytoscape('layout', 'dagre', 'dagre'); // register extension
 
       this.showStateSpace = true;
       this.displayAboutFlag = false;
       this.notLoaded = true;
-      //this.displayAboutFlag = true;
       this.alive = true;
 
       // Load cytoscape style for state space visualisation
       console.log("Read Statespace Style");
       this.jsonService.readStatespaceStyleJSON()
-      //this.http.get('assets/cytoscapeStyle/style.cycss')//, options)
                                        .takeWhile(() => this.alive)
                                        .subscribe(result => {
                                          this.statespaceStyle = result.text();
@@ -75,46 +70,31 @@ export class ASSComponent implements OnInit {
       });
 
     }
-    ngOnInit() {
-    }
 
     ngAfterViewInit()	{
       this.loadStateSpace();
-
     }
-
 
     ngOnDestroy(){
       this.alive = false;
     }
 
-
     displayAbout(){
       this.displayAboutFlag = true;
     }
 
-
     // Load the input rule and let cytoscape render it into the rule container
     public loadStateSpace(){
 
-    let cyOnCallback = function(evt) : any {
-      console.log("Test: node clicked");
-      let node : any = evt.target;
-      let tmp : number = node.id();
-      console.log("Node: " + node.id());
-      console.log("NodeID: " + tmp);
-      return tmp;
-    };
-
-    //let myAdd = function(x:number) { console.log("TestmyAdd" + x);};
-    //let myAdd: (x: number, y: number) => number =
-    //function(x: number, y: number): number { return x + y; };
+      let cyOnCallback = function(evt) : any {
+        let node : any = evt.target;
+        let tmp : number = node.id();
+        console.log("NodeID: " + tmp);
+        return tmp;
+      };
 
       // load layout
       let layout : any = { name: 'dagre', padding: 'layoutPadding', rankDir: 'LR' };
-
-      // Set the binded variables
-      //this.stateSpacePath = ;
 
       console.log("Load state space");
 
@@ -160,12 +140,6 @@ export class ASSComponent implements OnInit {
                               this.apPresent = false;
                             }
                           }.bind(this));
-
-                        //'<p class="ac-node-type"><i>Program statement:</i><br/>{{statement}}</p><br/>',
-                        //'<p class="ac-node-type"><i>Atomic propositions:</i></p>',
-                        //'{{#each propositions}}<p class="ac-node-type"><i class="fa fa-info-circle"></i> {{ this }}</p>{{/each}}<br/>'
-
-
                         },
           )
           .catch((ex) => {

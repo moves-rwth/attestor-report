@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnDestroy, ElementRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Subscription } from "rxjs/Subscription";
 import 'rxjs/add/operator/catch';
@@ -14,7 +14,7 @@ import { JsonService } from '../../json.service';
     styleUrls: ['./init-conf.component.scss'],
     animations: [routerTransition()]
 })
-export class InitConfComponent implements OnInit {
+export class InitConfComponent{
 
       numberInitHCs : number;
       initHCs : Array<number>;
@@ -35,15 +35,12 @@ export class InitConfComponent implements OnInit {
       // Get rule names from grammar file
       this.jsonService.readInitialHCsSummaryJSON().subscribe(result => {
                                               this.numberInitHCs = result.number;
-                                              console.log(this.numberInitHCs);
                                               this.initHCs = new Array(this.numberInitHCs);
                                               let i : number;
                                               for (i = 0; i < this.numberInitHCs; i++)
                                               {
                                                 this.initHCs[i] = i;
                                               };
-                                              console.log(this.initHCs);
-
                                               }
                                             );
 
@@ -58,9 +55,6 @@ export class InitConfComponent implements OnInit {
 
     }
 
-    ngOnInit() {
-    }
-
     private loadInitHC(HCid : number){
       this.showInitHC = true;
       this.initialHCNumber = HCid;
@@ -69,7 +63,6 @@ export class InitConfComponent implements OnInit {
           .toPromise().then(
             (result) => {
                           let elem:HTMLElement = document.getElementById('initHC');
-                          console.log('Inital HC json file read');
                           cytoscape({
                             container : elem,
                             elements: result,

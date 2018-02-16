@@ -85,42 +85,4 @@ export class GrammarComponent implements OnInit {
                             this.showRule = false;
                           });
     }
-
-/*
-    function viewRule(ruleName){
-
-        clearDivs();
-
-        // Load style
-        var hcStyle = $.ajax({
-        url: './lib/styleHc.cycss',
-        type: 'GET',
-        dataType: 'text'
-        });
-
-        // Load rule data and display rule graph
-        var ruleData = $.getJSON('./grammarData/' + ruleName.id + '.json', function(ruleData){
-
-            // Display rule name
-            document.getElementById('ruleHeading').innerHTML += '<h2> ' + ruleName.id + '</h2>';
-
-            // Render rule
-            cy2 = cytoscape({
-                container: document.getElementById('rule'),
-                layout: {
-                    name: 'breadthfirst'
-                },
-                style: hcStyle,
-                elements: ruleData.elements,
-                selectionType: 'single',
-                boxSelectionEnabled: false,
-                autoungrabify: false ,
-                zoom: 1
-            });
-
-
-        });
-    }
-*/
-
 }

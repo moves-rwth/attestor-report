@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router, NavigationEnd } from '@angular/router';
 
-
-import "rxjs/add/operator/takeWhile";
-import 'rxjs/add/operator/catch';
-
 import {JsonService} from '../../json.service'
 
 
@@ -45,7 +41,7 @@ export class DashboardComponent implements OnInit {
                                               this.messages = result["3"].messages;
                                           });
 
-      console.log("Read analysis summary file");
+      console.log("Read messages");
       this.jsonService.readMessagesJSON().subscribe( result => {
                                             this.messages = result;
                                             this.fillAlerts(this.messages);
