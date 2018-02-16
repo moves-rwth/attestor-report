@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
+import { Http, Response } from '@angular/http';
+
 import 'rxjs/add/operator/toPromise';
 import { map } from 'rxjs/operators';
-
-import { Http, Response } from '@angular/http';
 import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 import { LocationService } from '../location.service'
 import { JsonService } from '../json.service'
-
 
 
 @Component({
@@ -32,7 +31,7 @@ export class LayoutComponent implements OnInit {
       TimerObservable.create(0, 5000)
         .takeWhile(() => this.alive)
         .subscribe(() => {
-          console.log("Subscribing");
+          console.log("Subscribing benchmarks via timer.");
           this.http.get(LocationService.benchmarks)
             .pipe(
                 map(response =>
@@ -40,24 +39,19 @@ export class LayoutComponent implements OnInit {
                   )
                 )
                 .subscribe(result => {
-                  console.log("Successfully read, now proceed");
+                  console.log("Successfully read, now proceed.");
                   if(this.locationService.benchmarks != result){
                     this.locationService.benchmarks = result;
                   }
 
-                  // Only set the currently active bid, if none is set
-                  if(this.locationService.bid == undefined){
+                  // Only set the currently active bid, if none is set (and there are available benchmarks)
+                  if(this.locationService.bid == undefined && result != undefined){
                     this.locationService.bid = result[0].id;
                     console.log("Initially setting bid");
                     this.read = true;
                     this.router.navigate(['/dashboard', { 'refresh': Math.floor(Math.random() * (100000 - 1 + 1)) + 1}]);
-                      //this.router.navigate([this.router.url]);
                   }
 
-                  // Display the report
-                  //if (this.router.url === '/') {
-                  //    this.router.navigate(['/dashboard']);
-                  //}
                 })
               });
     }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import { Http, Response } from '@angular/http';
 
 import "rxjs/add/operator/takeWhile";
 import 'rxjs/add/operator/catch';
@@ -13,7 +12,7 @@ import {JsonService} from '../../json.service'
     styleUrls: ['./verification-results.component.scss'],
     animations: [routerTransition()]
 })
-export class VerificationResultsComponent implements OnInit {
+export class VerificationResultsComponent{
 
     runtimePhasesArray : Array<any>;
     runtimeTotalArray : Array<any>;
@@ -28,7 +27,6 @@ export class VerificationResultsComponent implements OnInit {
       // Load json file with general attestor output
       console.log("Read summary file");
       this.jsonService.readAnalysisSummaryJSON().subscribe(result => {
-                                              console.log(result);
                                               this.runtimePhasesArray = result["1"].runtime["0"].phases;
                                               this.runtimeTotalArray = result["1"].runtime["1"].total;
                                               this.stateSpaceArray = result["2"].stateSpace;
@@ -40,5 +38,4 @@ export class VerificationResultsComponent implements OnInit {
 
 
     }
-    ngOnInit() { }
 }

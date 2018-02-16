@@ -4,10 +4,7 @@ import { CommonModule } from '@angular/common';
 import { VerificationResultsComponent } from './verification-results.component';
 import { VerificationResultsRoutingModule } from './verification-results-routing.module';
 import { PageHeaderModule } from './../../shared';
-import {
-    TimelineComponent,
-    NotificationComponent
-} from './components';
+import { NotificationComponent } from './components';
 
 @NgModule({
     imports: [
@@ -16,7 +13,6 @@ import {
         PageHeaderModule
     ],
     declarations: [VerificationResultsComponent,
-    TimelineComponent,
     NotificationComponent]
 })
 export class VerificationResultsModule { }
