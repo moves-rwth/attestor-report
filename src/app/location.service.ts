@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/observable/from';
-
 import 'rxjs/add/operator/toPromise';
-
-
-import { Http, Response } from '@angular/http';
 
 @Injectable()
 export class LocationService {
@@ -64,34 +61,8 @@ export class LocationService {
   alive : boolean = true;
 
 
-  constructor(private http:Http){
-    // Set the default benchmark id to one
-    //this.bid = 1;
-
-
-
-    /*this.readBenchmarkssJSON()
-                            .subscribe(result => {
-                                            console.log("Benchmarks: " + JSON.stringify(result));
-                                            console.log("Set bid: " + result[0].id);
-                                            this.benchmarks = result;
-                                            this.setBid(result[0].id);
-                                });*/
+  constructor(){
   }
-
-/*console.log("Trying to read " + LocationService.benchmarks);
-return this.http.get(LocationService.benchmarks)
-    .takeWhile(() => this.alive)
-    .map((response: Response) => {
-        console.log("Successful reading " + LocationService.benchmarks + " "  + response.json());
-        return response.json();
-    }
-)
-}*/
-
- private handleError(error: any): Promise<any> {
- return Promise.reject(error.message || error);
- }
 
   public setBid(bid : number) : void {
     this.bid = bid;
